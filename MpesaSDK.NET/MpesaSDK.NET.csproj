@@ -14,7 +14,7 @@
 Created using .net Standard 2.0.</PackageReleaseNotes>
     <Authors>davidmutia</Authors>
     <Product>davidmutia</Product>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
   </PropertyGroup>
 
   <ItemGroup>

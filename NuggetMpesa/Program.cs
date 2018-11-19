@@ -1,23 +1,20 @@
 ﻿using System;
-using MpesaSDK.NET;
 using System.Text;
 using System.Threading.Tasks;
+using MpesaSDK.NET;
 
-namespace ClientTest
+namespace NuggetMpesa
 {
     class Program
-    {
-
+    {        
         static void Main(string[] args)
         {
+            Console.WriteLine("started.....");
             stkPushAsync();
-            
-            Console.WriteLine("Hello World!");
-
             Console.ReadKey();
         }
 
-        static async System.Threading.Tasks.Task stkPushAsync()
+        static async Task stkPushAsync()
         {
 
             MpesaClient mpesaclient = new MpesaClient("RueQt1MojjqLivNkgPcejh6VFcn5rpkf", "3zvftXwm6SUPNiJe");
@@ -46,21 +43,8 @@ namespace ClientTest
                 AccountReference = "12345",
                 TransactionDesc = "Pay for goods."
             };
-           var result = await mpesaclient.STKPush(data);
+            var result = await mpesaclient.STKPush(data);
             Console.WriteLine(result.ToString());
         }
     }
 }
-
-
-//Shortcode 1	600129
-//Initiator Name(Shortcode 1)    apitest361
-//Security Credential(Shortcode 1)   361reset
-//Shortcode 2	600000
-//Test MSISDN 254708374149
-//ExpiryDate	2018-11-21T23:58:05+03:00
-//Lipa Na Mpesa Online Shortcode:	174379
-//Lipa Na Mpesa Online Passkey:
-//bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919
-
-//nuget push MpesaSDK.NET.1.0.0.nupkg oy2bqjx62dassaw75iyq4ipymdmdpyzezjqaldbq4ivyby -Source https://api.nuget.org/v3/index.json
