@@ -1,6 +1,7 @@
 ﻿using System;
 using MpesaSDK.NET;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ClientTest
 {
@@ -19,6 +20,8 @@ namespace ClientTest
 
         static async System.Threading.Tasks.Task stkPushAsync()
         {
+            //await server to run
+            await Task.Delay(TimeSpan.FromSeconds(10));
             var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
             var password = Convert.ToBase64String(Encoding.UTF8.GetBytes($"174379bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919{timestamp}"));
 
@@ -28,11 +31,17 @@ namespace ClientTest
                 Password = password,
                 Timestamp = timestamp,
                 TransactionType = "CustomerPayBillOnline",
-                Amount = 180,
+                Amount = 10,
+                //change to ur number
                 PartyA = "254704767562",
                 PartyB = "174379",
+                //change to ur number
                 PhoneNumber = "254704767562",
-                CallBackURL = "https://somesite.ke.xy",
+                //local callback url exposed via ngrok
+                //for more details on how to expose callback server check link below
+                //https://dashboard.ngrok.com/get-started
+
+                CallBackURL = "https://49ad24ef.ngrok.io/api/callback/StkPushCallback",
                 AccountReference = "12345",
                 TransactionDesc = "Pay for goods."
             };
@@ -52,3 +61,5 @@ namespace ClientTest
 //Lipa Na Mpesa Online Shortcode:	174379
 //Lipa Na Mpesa Online Passkey:
 //bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919
+
+//nuget push MpesaSDK.NET.1.0.0.nupkg oy2bqjx62dassaw75iyq4ipymdmdpyzezjqaldbq4ivyby -Source https://api.nuget.org/v3/index.json

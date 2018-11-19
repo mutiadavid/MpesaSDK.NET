@@ -17,5 +17,10 @@ namespace MpesaSDK.NET.Dtos.Callbacks
         public string ResultDesc { get; set; }
         [JsonProperty("CallbackMetadata")]
         public LipaNaMPesaCallbackMetadata LipaNaMPesaCallbackMetadata { get; set; }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
     }
 }

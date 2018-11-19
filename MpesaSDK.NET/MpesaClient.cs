@@ -90,6 +90,7 @@ namespace MpesaSDK.NET
                 {
                     try
                     {
+                        Console.WriteLine(response.Content);
                         result.ErrorResponse = JsonConvert.DeserializeObject<ErrorResponse>(response.Content);
                         result.IsSuccess = false;
                     }
@@ -103,6 +104,7 @@ namespace MpesaSDK.NET
                     try
                     {
                         //try parsing success response
+                        Console.WriteLine(response.Content);
                         result.SuccessResponse = JsonConvert.DeserializeObject<SuccessResponse>(response.Content);
                         result.IsSuccess = true;
                     }
