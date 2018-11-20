@@ -10,9 +10,12 @@ namespace ClientTest
 
         static void Main(string[] args)
         {
-            stkPushAsync();
+            //stkPushAsync();
             
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Started!");
+            //stkQuery();
+            var test = "Safaricom129!";
+            Console.WriteLine(test.MpesaSecurityCredential());
 
             Console.ReadKey();
         }
@@ -47,6 +50,26 @@ namespace ClientTest
                 TransactionDesc = "Pay for goods."
             };
            var result = await mpesaclient.STKPush(data);
+            Console.WriteLine(result.ToString());
+        }
+
+        static async Task stkQuery()
+        {
+            //ws_CO_DMZ_155474528_19112018171250687
+            MpesaClient mpesaclient = new MpesaClient("RueQt1MojjqLivNkgPcejh6VFcn5rpkf", "3zvftXwm6SUPNiJe");
+            //await server to run
+            //await Task.Delay(TimeSpan.FromSeconds(10));
+            var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+            var password = Convert.ToBase64String(Encoding.UTF8.GetBytes($"174379bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919{timestamp}"));
+
+            var result = await mpesaclient.StkPushQuery(new MpesaSDK.NET.Dtos.Requests.StkPushQueryRequest
+            {
+                BusinessShortCode = "174379",
+                CheckoutRequestID = "ws_CO_DMZ_155474528_19112018171250687",
+                Password = password,
+                Timestamp = timestamp
+            });
+
             Console.WriteLine(result.ToString());
         }
     }

@@ -10,7 +10,7 @@ namespace MpesaSDK.NET.Dtos.Responses
         [JsonProperty("IsSuccess")]
         public bool IsSuccess { get; set; }
         [JsonProperty("SuccessResponse")]
-        public SuccessResponse SuccessResponse { get; set; }
+        public CommonSuccessResponse SuccessResponse { get; set; }
         [JsonProperty("ErrorResponse")]
         public ErrorResponse ErrorResponse { get; set; }
 

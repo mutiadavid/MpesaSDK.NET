@@ -5,7 +5,6 @@ using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Authenticators;
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace MpesaSDK.NET
@@ -69,11 +68,11 @@ namespace MpesaSDK.NET
             }
             finally
             {
-               // Monitor.Exit(accesstokenLock);
+                // Monitor.Exit(accesstokenLock);
             }
         }
 
-        private async Task<MpesaResponse> PostRequestAsync(string resourceUrl, string data)
+        private async Task<(S SuccessResponse, ErrorResponse ErrorResponse, bool IsSuccessful)> PostRequestAsync<S>(string resourceUrl, string data) where S : new()
         {
             try
             {
@@ -85,32 +84,38 @@ namespace MpesaSDK.NET
                 restRequest.AddParameter("application/json;charset=utf-8", data, ParameterType.RequestBody);
                 var response = await restClient.ExecuteTaskAsync(restRequest);
 
-                var result = new MpesaResponse();
+                //var result = new MpesaResponse();
+                (S SuccessResponse, ErrorResponse ErrorResponse, bool IsSuccessful) result = (new S(), null, false);
                 if (!response.IsSuccessful)
                 {
-                    try
-                    {
-                        result.ErrorResponse = JsonConvert.DeserializeObject<ErrorResponse>(response.Content);
-                        result.IsSuccess = false;
-                    }
-                    catch (Exception)
-                    {
-                        HandleRestExceptions(response, "Error sending post request");
-                    }
+                    result.ErrorResponse = JsonConvert.DeserializeObject<ErrorResponse>(response.Content);
+                    result.IsSuccessful = false;
+                    //try
+                    //{
+                    //    result.ErrorResponse = JsonConvert.DeserializeObject<ErrorResponse>(response.Content);
+                    //    result.IsSuccess = false;
+                    //}
+                    //catch (Exception)
+                    //{
+                    //    HandleRestExceptions(response, "Error sending post request");
+                    //}
                 }
                 else
                 {
-                    try
-                    {
-                        //try parsing success response
-                        result.SuccessResponse = JsonConvert.DeserializeObject<SuccessResponse>(response.Content);
-                        result.IsSuccess = true;
-                    }
-                    catch
-                    {
-                        result.ErrorResponse = JsonConvert.DeserializeObject<ErrorResponse>(response.Content);
-                        result.IsSuccess = false;
-                    }
+
+                    result.SuccessResponse = JsonConvert.DeserializeObject<S>(response.Content);
+                    result.IsSuccessful = true;
+                    //try
+                    //{
+                    //    //try parsing success response
+                    //    result.SuccessResponse = JsonConvert.DeserializeObject<SuccessResponse>(response.Content);
+                    //    result.IsSuccess = true;
+                    //}
+                    //catch
+                    //{
+                    //    result.ErrorResponse = JsonConvert.DeserializeObject<ErrorResponse>(response.Content);
+                    //    result.IsSuccess = false;
+                    //}
                 }
 
                 return result;
@@ -130,52 +135,62 @@ namespace MpesaSDK.NET
             throw new Exception(message);
         }
 
+        private async Task<MpesaResponse> CommonMpesaPostAsync(string url, string payload)
+        {
+            var res = await PostRequestAsync<CommonSuccessResponse>(url, payload);
+            return new MpesaResponse()
+            {
+                ErrorResponse = res.ErrorResponse,
+                SuccessResponse = res.SuccessResponse,
+                IsSuccess = res.IsSuccessful
+            };
+        }
+
         #endregion
 
         #region Public methods
-        public async Task<MpesaResponse> STKPush(STKPushRequest request)
+        public async Task<(StkPushSuccessResponse StkPushSuccessResponse, ErrorResponse ErrorResponse, bool IsSuccessful)> STKPush(STKPushRequest request)
         {
-            return await PostRequestAsync("mpesa/stkpush/v1/processrequest", request.ToString());
+            return await PostRequestAsync<StkPushSuccessResponse>("mpesa/stkpush/v1/processrequest", request.ToString());
+        }
+
+        public async Task<(StkPushQuerySuccessResponse StkPushQueryRequest, ErrorResponse ErrorResponse, bool IsSuccessful)> StkPushQuery(StkPushQueryRequest request)
+        {
+            return await PostRequestAsync<StkPushQuerySuccessResponse>("mpesa/stkpushquery/v1/query", request.ToString());
         }
 
         public async Task<MpesaResponse> B2C(B2CRequest request)
         {
-            return await PostRequestAsync("mpesa/b2c/v1/paymentrequest", request.ToString());
+            return await CommonMpesaPostAsync("mpesa/b2c/v1/paymentrequest", request.ToString());
         }
 
         public async Task<MpesaResponse> B2B(B2BRequest request)
         {
-            return await PostRequestAsync("mpesa/b2b/v1/paymentrequest", request.ToString());
+            return await CommonMpesaPostAsync("mpesa/b2b/v1/paymentrequest", request.ToString());
         }
 
         public async Task<MpesaResponse> C2BRegisterUrl(C2BRegisterURLRequest request)
         {
-            return await PostRequestAsync("mpesa/c2b/v1/registerurl", request.ToString());
+            return await CommonMpesaPostAsync("mpesa/c2b/v1/registerurl", request.ToString());
         }
 
         public async Task<MpesaResponse> C2BSimulateTransaction(C2BSimulateTransactionRequest request)
         {
-            return await PostRequestAsync("mpesa/c2b/v1/simulate", request.ToString());
+            return await CommonMpesaPostAsync("mpesa/c2b/v1/simulate", request.ToString());
         }
-
-        public async Task<MpesaResponse> StkPushQuery(StkPushQueryRequest request)
-        {
-            return await PostRequestAsync("mpesa/stkpushquery/v1/query", request.ToString());
-        }
-
         public async Task<MpesaResponse> AccountBalance(AccountBalanceRequest request)
         {
-            return await PostRequestAsync("mpesa/accountbalance/v1/query", request.ToString());
+            return await CommonMpesaPostAsync("mpesa/accountbalance/v1/query", request.ToString());
         }
 
         public async Task<MpesaResponse> TransactionStatus(TransactionStatusRequest request)
         {
-            return await PostRequestAsync("mpesa/transactionstatus/v1/query", request.ToString());
+            return await CommonMpesaPostAsync("mpesa/transactionstatus/v1/query", request.ToString());
         }
 
         public async Task<MpesaResponse> Reversal(ReversalRequest request)
         {
-            return await PostRequestAsync("mpesa/reversal/v1/request", request.ToString());
+            return await CommonMpesaPostAsync("mpesa/reversal/v1/request", request.ToString());
         }
 
         #endregion
