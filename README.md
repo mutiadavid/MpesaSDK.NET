@@ -8,74 +8,81 @@ nugget [install](https://www.nuget.org/packages/MpesaSDK.NET/)
 
 # Usage
 
-### STK Push request
+### Sending Requests
+***
+
+##### STK Push request
 ```cs
 
 using MpesaSDK.NET;
 using MpesaSDK.NET.Dtos.Requests;
 ...
 
+MpesaClient mpesaclient = new MpesaClient("consumerkey","secret");
+
 var result = await mpesaclient.STKPush(...);
 
 ```
 
-### Stk Push Query request
+##### Stk Push Query request
 ```cs
 
 var result = await mpesaclient.StkPushQuery(...);
 
 ```
 
-### B2C request
+##### B2C request
 ```cs
 
 var result = await mpesaclient.B2C(...);
 
 ```
 
-### B2B request
+##### B2B request
 ```cs
 
 var result = await mpesaclient.B2B(...);
 
 ```
 
-### C2B Register Url request
+##### C2B Register Url request
 ```cs
 
 var result = await mpesaclient.C2BRegisterUrl(...);
 
 ```
 
-### C2B Simulate Transaction request
+##### C2B Simulate Transaction request
 ```cs
 
 var result = await mpesaclient.C2BSimulateTransaction(...);
 
 ```
 
-### Account Balance request
+##### Account Balance request
 ```cs
 
 var result = await mpesaclient.AccountBalance(...);
 
 ```
 
-### Transaction Status request
+##### Transaction Status request
 ```cs
 
 var result = await mpesaclient.TransactionStatus(...);
 
 ```
 
-### Reversal request
+##### Reversal request
 ```cs
 
 var result = await mpesaclient.Reversal(...);
 
 ```
 
+### Callback server
 
+***
 
 Docs to be updated soon.
 
