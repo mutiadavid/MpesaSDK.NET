@@ -83,6 +83,9 @@ var result = await mpesaclient.Reversal(...);
 ### Callback server
 
 ***
+Check sample callback api [here](https://github.com/davidmutia47/MpesaSDK.NET/blob/master/CallbackServer/Controllers/CallbackController.cs)
+
+
 
 Docs to be updated soon.
 
