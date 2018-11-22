@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{03018C29-A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{0A27AF92-341D-4615-8C87-9F92DFB63B84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CallbackServer", "CallbackServer\CallbackServer.csproj", "{0ACA68D7-22DE-4552-9DEF-762401936CE1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CallbackServer", "CallbackServer\CallbackServer.csproj", "{0ACA68D7-22DE-4552-9DEF-762401936CE1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientTest", "ClientTest\ClientTest.csproj", "{4E118F4A-B880-42B2-AB29-701D5B10077A}"
 EndProject

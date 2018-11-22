@@ -2,6 +2,7 @@
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Xml;
 
 namespace MpesaSDK.NET
 {
@@ -9,27 +10,92 @@ namespace MpesaSDK.NET
     {
         //TODO: Implement 
         /// <summary>
-        /// Mpesa Pass encryption
-        /// Caution!!! Not working for now.
+        /// Mpesa Pass encryption.
+        /// Caution!!! Not tested!!!
         /// </summary>
         /// <param name="data">data to be encrypted with MPesa Cert</param>
         /// <returns></returns>
-        public static string MpesaSecurityCredential(this string data)
+        public static string MpesaSecurityCredential(this string pass)
         {
-            byte[] encrtptedData;
+            string certPulicKey = ((RSA)new X509Certificate2(Convert.FromBase64String(certKey)).PublicKey.Key).ToXmlString2(false);
+            byte[] bytes = Encoding.UTF8.GetBytes(pass);
             using (RSACryptoServiceProvider rsa = new RSACryptoServiceProvider())
             {
-                X509Certificate2 x509Certificate2 = new X509Certificate2(Convert.FromBase64String(certKey));
-             
-
-                RSAParameters parameters = rsa.ExportParameters(true);
-                parameters.Modulus = x509Certificate2.GetPublicKey();
-                rsa.ImportParameters(parameters);
-                encrtptedData = rsa.Encrypt(Encoding.ASCII.GetBytes(data), false);
+                try
+                {
+                    rsa.FromXmlString2(certPulicKey);
+                    return Convert.ToBase64String(rsa.Encrypt(bytes, false));
+                }
+                finally
+                {
+                    rsa.PersistKeyInCsp = false;
+                }
             }
-            return Convert.ToBase64String(encrtptedData);
-            
         }
+
+        private static void FromXmlString2(this RSACryptoServiceProvider rsa, string xmlString)
+        {
+            Encrypt.FromXmlStringImpl(rsa, xmlString);
+        }
+
+        private static void FromXmlStringImpl(RSACryptoServiceProvider rsa, string xmlString)
+        {
+            RSAParameters parameters = new RSAParameters();
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.LoadXml(xmlString);
+            if (!xmlDocument.DocumentElement.Name.Equals("RSAKeyValue"))
+            {
+                throw new InvalidOperationException("Invalid XML RSA key.");
+            }
+
+            foreach (XmlNode childNode in xmlDocument.DocumentElement.ChildNodes)
+            {
+                switch (childNode.Name)
+                {
+                    case "D":
+                        parameters.D = Convert.FromBase64String(childNode.InnerText);
+                        continue;
+                    case "DP":
+                        parameters.DP = Convert.FromBase64String(childNode.InnerText);
+                        continue;
+                    case "DQ":
+                        parameters.DQ = Convert.FromBase64String(childNode.InnerText);
+                        continue;
+                    case "Exponent":
+                        parameters.Exponent = Convert.FromBase64String(childNode.InnerText);
+                        continue;
+                    case "InverseQ":
+                        parameters.InverseQ = Convert.FromBase64String(childNode.InnerText);
+                        continue;
+                    case "Modulus":
+                        parameters.Modulus = Convert.FromBase64String(childNode.InnerText);
+                        continue;
+                    case "P":
+                        parameters.P = Convert.FromBase64String(childNode.InnerText);
+                        continue;
+                    case "Q":
+                        parameters.Q = Convert.FromBase64String(childNode.InnerText);
+                        continue;
+                    default:
+                        throw new InvalidOperationException("Unknown node name: " + childNode.Name);
+                }
+            }
+            rsa.ImportParameters(parameters);
+        }
+
+        private static string ToXmlString2(this RSA rsa, bool includePrivateParameters = false)
+        {
+            RSAParameters rsaParameters = rsa.ExportParameters(includePrivateParameters);
+            if (!includePrivateParameters)
+            {
+                return string.Format("<RSAKeyValue><Modulus>{0}</Modulus><Exponent>{1}</Exponent></RSAKeyValue>", (object)Convert.ToBase64String(rsaParameters.Modulus), (object)Convert.ToBase64String(rsaParameters.Exponent));
+            }
+
+            return string.Format("<RSAKeyValue><Modulus>{0}</Modulus><Exponent>{1}</Exponent><P>{2}</P><Q>{3}</Q><DP>{4}</DP><DQ>{5}</DQ><InverseQ>{6}</InverseQ><D>{7}</D></RSAKeyValue>", (object)Convert.ToBase64String(rsaParameters.Modulus), (object)Convert.ToBase64String(rsaParameters.Exponent), (object)Convert.ToBase64String(rsaParameters.P), (object)Convert.ToBase64String(rsaParameters.Q), (object)Convert.ToBase64String(rsaParameters.DP), (object)Convert.ToBase64String(rsaParameters.DQ), (object)Convert.ToBase64String(rsaParameters.InverseQ), (object)Convert.ToBase64String(rsaParameters.D));
+        }
+
+
+
         private const string certKey = @"MIIGkzCCBXugAwIBAgIKXfBp5gAAAD+hNjANBgkqhkiG9w0BAQsFADBbMRMwEQYK
 CZImiZPyLGQBGRYDbmV0MRkwFwYKCZImiZPyLGQBGRYJc2FmYXJpY29tMSkwJwYD
 VQQDEyBTYWZhcmljb20gSW50ZXJuYWwgSXNzdWluZyBDQSAwMjAeFw0xNzA0MjUx

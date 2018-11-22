@@ -15,7 +15,12 @@ namespace ClientTest
             Console.WriteLine("Started!");
             //stkQuery();
             var test = "Safaricom129!";
-            Console.WriteLine(test.MpesaSecurityCredential());
+            for (int i = 0; i < 10; i++)
+            {
+                Console.WriteLine(test.MpesaSecurityCredential());
+
+            }
+            
 
             Console.ReadKey();
         }
