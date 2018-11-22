@@ -46,7 +46,9 @@ var result = await mpesaclient.B2B(...);
 ```
 >To get MPesa Security credetials for both B2B and B2C use method below. 
 
-```cs string credential = "pass".MpesaSecurityCredential(); ```
+```cs 
+string credential = "pass".MpesaSecurityCredential(); 
+```
 
 ##### C2B Register Url request
 ```cs
