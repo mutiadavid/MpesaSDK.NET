@@ -95,3 +95,8 @@ Check sample callback api [here](https://github.com/davidmutia47/MpesaSDK.NET/bl
 Docs to be updated soon.
 
 
+## LICENSE
+
+Apache LICENSE-2.0 [read more](https://www.apache.org/licenses/LICENSE-2.0)
+
+
