@@ -1,10 +1,12 @@
 ﻿using MpesaSDK.NET.Dtos;
 using MpesaSDK.NET.Dtos.Requests;
 using MpesaSDK.NET.Dtos.Responses;
+using MpesaSDK.NET.Validators;
 using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Authenticators;
 using System;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace MpesaSDK.NET
@@ -151,8 +153,44 @@ namespace MpesaSDK.NET
         #region Public methods
         public async Task<(StkPushSuccessResponse StkPushSuccessResponse, ErrorResponse ErrorResponse, bool IsSuccessful)> STKPush(STKPushRequest request)
         {
+            this.ValidatePhoneNumber(request.PhoneNumber);
+            SameValueValidator.ValidateSameValue(request.PhoneNumber, request.PartyA,"PatyA","PhoneNumber");
+
+            this.ValidateTimestamp(request.Timestamp);
+
+            this.ValidateBusinessShortCode(request.BusinessShortCode);
+            SameValueValidator.ValidateSameValue(request.PartyB, request.BusinessShortCode, "PartyB", "BusinessShortCode");
+
+            LengthValidator.ValidateLength(request.AccountReference, "AccountReference", 12);
+
+            LengthValidator.ValidateLength(request.TransactionDesc, "TransactionDesc", 13, 1);
+
+            URLValidator.ValidateURL(request.CallBackURL, "CallBackURL");
+
             return await PostRequestAsync<StkPushSuccessResponse>("mpesa/stkpush/v1/processrequest", request.ToString());
         }
+
+        public async Task<(StkPushSuccessResponse StkPushSuccessResponse, ErrorResponse ErrorResponse, bool IsSuccessful)> STKPush(string businessCode,string phoneNumber,long amount,string passKey,string callbackUrl,string accountReference = "12345",string transactionDesc = "Payment", string transactionType = "CustomerPayBillOnline")
+        {
+            var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+            var password = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{businessCode}{passKey}{timestamp}"));
+
+            return await STKPush(new STKPushRequest()
+            {
+                BusinessShortCode = businessCode,
+                PartyA = phoneNumber,
+                PartyB = businessCode,
+                PhoneNumber = phoneNumber,
+                TransactionType =  transactionType,
+                TransactionDesc = transactionDesc,
+                Amount = amount,
+                CallBackURL = callbackUrl,
+                AccountReference = accountReference,
+                Password = password,
+                Timestamp = timestamp
+            });
+        }
+
 
         public async Task<(StkPushQuerySuccessResponse StkPushQueryRequest, ErrorResponse ErrorResponse, bool IsSuccessful)> StkPushQuery(StkPushQueryRequest request)
         {
