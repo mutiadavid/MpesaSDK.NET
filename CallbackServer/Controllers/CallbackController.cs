@@ -23,6 +23,7 @@ namespace CallbackServer.Controllers
         public async Task<IActionResult> StkPushCallbackAsync([FromBody] LipaNaMpesaCallback callback)
         {
             //do something with the call databack
+            
             _logger.LogInformation(callback.ToString());
             return Ok();
         }

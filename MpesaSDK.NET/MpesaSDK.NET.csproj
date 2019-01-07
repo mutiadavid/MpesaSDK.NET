@@ -2,19 +2,25 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Description>Mpesa Daraja API SDK implementation.</Description>
+    <Description>Mpesa Daraja API implementation.
+
+This package makes it easy for .Net developers to integrate to safaricom mpesa api.
+
+Created using .net Standard 2.0.</Description>
     <PackageProjectUrl>https://github.com/davidmutia47/MpesaSDK.NET</PackageProjectUrl>
     <PackageIconUrl>https://developer.safaricom.co.ke/sites/all/themes/apigee_responsive_custom/logo.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/davidmutia47/MpesaSDK.NET</RepositoryUrl>
     <PackageLicenseUrl>https://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
     <Copyright>davidmutia @2018</Copyright>
-    <PackageTags>#Mpesa, #Daraja, #SDK</PackageTags>
-    <PackageReleaseNotes>This package makes it easy for .Net develo[pers to integrate to safaricom mpesa api.
-
-Created using .net Standard 2.0.</PackageReleaseNotes>
+    <PackageTags>Mpesa, Daraja, SDK</PackageTags>
+    <PackageReleaseNotes>Supported platforms:
+- .NET Framework 4.6+
+- .NET Standard 2.0+
+- .NET Core 2.0+</PackageReleaseNotes>
     <Authors>davidmutia</Authors>
     <Product>davidmutia</Product>
-    <Version>1.0.3</Version>
+    <Version>2.0.1</Version>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

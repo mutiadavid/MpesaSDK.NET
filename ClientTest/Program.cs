@@ -10,16 +10,16 @@ namespace ClientTest
 
         static void Main(string[] args)
         {
-            //stkPushAsync();
+            stkPushAsync();
             
             Console.WriteLine("Started!");
-            //stkQuery();
-            var test = "Safaricom129!";
-            for (int i = 0; i < 10; i++)
-            {
-                Console.WriteLine(test.MpesaSecurityCredential());
+            ////stkQuery();
+            //var test = "Safaricom129!";
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    Console.WriteLine(test.MpesaSecurityCredential());
 
-            }
+            //}
             
 
             Console.ReadKey();
@@ -30,7 +30,7 @@ namespace ClientTest
 
             MpesaClient mpesaclient = new MpesaClient("RueQt1MojjqLivNkgPcejh6VFcn5rpkf", "3zvftXwm6SUPNiJe");
             //await server to run
-            await Task.Delay(TimeSpan.FromSeconds(10));
+            //await Task.Delay(TimeSpan.FromSeconds(10));
             var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
             var password = Convert.ToBase64String(Encoding.UTF8.GetBytes($"174379bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919{timestamp}"));
 
