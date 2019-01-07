@@ -1,7 +1,7 @@
 # MpesaSDK.NET
 Mpesa Daraja SDK implementation for .net.
 
-For More Info check [Safaricm Mpesa Documentation](https://developer.safaricom.co.ke/docs#authentication)
+For More Info check [Safaricom Mpesa Documentation](https://developer.safaricom.co.ke/docs#authentication)
 
 # Download and Install
 nugget [install](https://www.nuget.org/packages/MpesaSDK.NET/)
@@ -43,6 +43,11 @@ var result = await mpesaclient.B2C(...);
 
 var result = await mpesaclient.B2B(...);
 
+```
+>To get MPesa Security credetials for both B2B and B2C use method below. 
+
+```cs 
+string credential = "pass".MpesaSecurityCredential(); 
 ```
 
 ##### C2B Register Url request
@@ -88,5 +93,10 @@ Check sample callback api [here](https://github.com/davidmutia47/MpesaSDK.NET/bl
 
 
 Docs to be updated soon.
+
+
+## LICENSE
+
+Apache LICENSE-2.0 [read more](https://www.apache.org/licenses/LICENSE-2.0)
 
 
