@@ -13,5 +13,9 @@ namespace MpesaSDK.NET.Dtos.Responses
         public string ErrorCode { get; set; }
         [JsonProperty("errorMessage")]
         public string ErrorMessage { get; set; }
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
     }
 }

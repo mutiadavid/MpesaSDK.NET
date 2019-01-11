@@ -27,9 +27,23 @@ namespace CallbackServer.Controllers
             _logger.LogInformation(callback.ToString());
             return Ok();
         }
+        [HttpPost("C2BValidation")]
+        public async Task<IActionResult> C2BValidationAsync([FromBody] C2BValidationCallback callback)
+        {
+            _logger.LogInformation(callback.ToString());
+            return Ok();
+        }
+        [HttpPost("C2BConfirmation")]
+        public async Task<IActionResult> C2BConfirmationAsync([FromBody] C2BConfirmationCallback callback)
+        {
+            _logger.LogInformation(callback.ToString());
+            return Ok();
+        }
+
         [HttpGet("")]
         public IActionResult Get()
         {
+            
             return Ok("Home");
         }
 

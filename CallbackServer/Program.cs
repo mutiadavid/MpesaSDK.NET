@@ -19,6 +19,7 @@ namespace CallbackServer
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                //.UseUrls("https://*:5001", "http://*:5000")
                 .UseStartup<Startup>();
     }
 }

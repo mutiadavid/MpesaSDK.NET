@@ -19,6 +19,11 @@ namespace MpesaSDK.NET.Dtos.Requests
         public string Initiator { get; set; }
         [JsonProperty("SecurityCredential")]
         public string SecurityCredential { get; set; }
-        
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
+
     }
 }

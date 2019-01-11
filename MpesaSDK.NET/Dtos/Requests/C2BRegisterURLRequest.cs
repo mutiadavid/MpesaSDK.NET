@@ -15,5 +15,10 @@ namespace MpesaSDK.NET.Dtos.Requests
         public string ShortCode { get; set; }
         [JsonProperty("ResponseType")]
         public string ResponseType { get; set; }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
     }
 }

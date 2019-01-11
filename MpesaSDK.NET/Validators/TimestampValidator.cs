@@ -12,10 +12,10 @@ namespace MpesaSDK.NET.Validators
             {
                 try
                 {
-                    DateTime.Parse(timestamp);
+                    DateTime.ParseExact(timestamp, "yyyyMMddHHmmss", provider: System.Globalization.CultureInfo.InvariantCulture);
                     return;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                 }
             }
