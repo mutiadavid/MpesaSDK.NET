@@ -9,10 +9,10 @@ namespace MpesaSDK.NET.Dtos.Requests
     {
         [JsonProperty("CommandID")]
         public string CommandID { get; set; }
-        [JsonProperty("PartyB")]
-        public string PartyB { get; set; }
-        [JsonProperty("ReceiverIdentifierType")]
-        public string ReceiverIdentifierType { get; set; }
+        [JsonProperty("PartyA")]
+        public string PartyA { get; set; }
+        [JsonProperty("IdentifierType")]
+        public string IdentifierType { get; set; }
         [JsonProperty("Remarks")]
         public string Remarks { get; set; }
         [JsonProperty("AccountType")]
