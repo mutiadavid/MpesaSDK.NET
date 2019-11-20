@@ -1,4 +1,4 @@
-﻿using MpesaSDK.NET.Dtos;
+using MpesaSDK.NET.Dtos;
 using MpesaSDK.NET.Dtos.Requests;
 using MpesaSDK.NET.Dtos.Responses;
 using MpesaSDK.NET.Validators;
@@ -6,7 +6,6 @@ using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Authenticators;
 using System;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MpesaSDK.NET
@@ -17,7 +16,7 @@ namespace MpesaSDK.NET
         private DateTime _tokenExpiresIn;
         private readonly string _consumerKey, _consumerSecret;
         private readonly bool _isSandBox;
-        private string accesstokenLock = null;
+
         public MpesaClient(string consumerKey, string consumerSecret, bool sandbox = true)
         {
             _accessToken = "";
@@ -148,13 +147,35 @@ namespace MpesaSDK.NET
             };
         }
 
+        private async Task<LipaResponse> LipaPostAsync(string url, string payload)
+        {
+            var res = await PostRequestAsync<StkPushSuccessResponse>(url, payload);
+            return new LipaResponse()
+            {
+                ErrorResponse = res.ErrorResponse,
+                SuccessResponse = res.SuccessResponse,
+                IsSuccess = res.IsSuccessful
+            };
+        }
+
+        private async Task<LipaQueryResponse> LipaQueryPostAsync(string url, string payload)
+        {
+            var res = await PostRequestAsync<StkPushQuerySuccessResponse>(url, payload);
+            return new LipaQueryResponse()
+            {
+                ErrorResponse = res.ErrorResponse,
+                SuccessResponse = res.SuccessResponse,
+                IsSuccess = res.IsSuccessful
+            };
+        }
+
         #endregion
 
         #region Public methods
-        public async Task<(StkPushSuccessResponse StkPushSuccessResponse, ErrorResponse ErrorResponse, bool IsSuccessful)> STKPush(STKPushRequest request)
+        public async Task<LipaResponse> STKPush(STKPushRequest request)
         {
             this.ValidatePhoneNumber(request.PhoneNumber);
-            SameValueValidator.ValidateSameValue(request.PhoneNumber, request.PartyA,"PatyA","PhoneNumber");
+            SameValueValidator.ValidateSameValue(request.PhoneNumber, request.PartyA, "PatyA", "PhoneNumber");
 
             this.ValidateTimestamp(request.Timestamp);
 
@@ -167,34 +188,12 @@ namespace MpesaSDK.NET
 
             URLValidator.ValidateURL(request.CallBackURL, "CallBackURL");
 
-            return await PostRequestAsync<StkPushSuccessResponse>("mpesa/stkpush/v1/processrequest", request.ToString());
+            return await LipaPostAsync("mpesa/stkpush/v1/processrequest", request.ToString());
         }
 
-        public async Task<(StkPushSuccessResponse StkPushSuccessResponse, ErrorResponse ErrorResponse, bool IsSuccessful)> STKPush(string businessCode,string phoneNumber,long amount,string passKey,string callbackUrl,string accountReference = "12345",string transactionDesc = "Payment", string transactionType = "CustomerPayBillOnline")
+        public async Task<LipaQueryResponse> StkPushQuery(StkPushQueryRequest request)
         {
-            var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
-            var password = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{businessCode}{passKey}{timestamp}"));
-
-            return await STKPush(new STKPushRequest()
-            {
-                BusinessShortCode = businessCode,
-                PartyA = phoneNumber,
-                PartyB = businessCode,
-                PhoneNumber = phoneNumber,
-                TransactionType =  transactionType,
-                TransactionDesc = transactionDesc,
-                Amount = amount,
-                CallBackURL = callbackUrl,
-                AccountReference = accountReference,
-                Password = password,
-                Timestamp = timestamp
-            });
-        }
-
-
-        public async Task<(StkPushQuerySuccessResponse StkPushQueryRequest, ErrorResponse ErrorResponse, bool IsSuccessful)> StkPushQuery(StkPushQueryRequest request)
-        {
-            return await PostRequestAsync<StkPushQuerySuccessResponse>("mpesa/stkpushquery/v1/query", request.ToString());
+            return await LipaQueryPostAsync("mpesa/stkpushquery/v1/query", request.ToString());
         }
 
         public async Task<MpesaResponse> B2C(B2CRequest request)
