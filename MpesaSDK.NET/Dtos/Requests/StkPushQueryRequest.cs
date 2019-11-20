@@ -17,7 +17,7 @@ namespace MpesaSDK.NET.Dtos.Requests
 
         public string Passkey { get; set; }
 
-        private string CalculatePassword => Convert.ToBase64String(Encoding.UTF8.GetBytes(PartyB + Passkey + Timestamp));
+        private string CalculatePassword => Convert.ToBase64String(Encoding.UTF8.GetBytes(BusinessShortCode + Passkey + Timestamp));
 
         [JsonProperty("Password")]
         public string Password { get => CalculatePassword; set => value = CalculatePassword; } 
