@@ -16,23 +16,23 @@ namespace ClientTest
 
                 MpesaClient mpesaclient = new MpesaClient("RueQt1MojjqLivNkgPcejh6VFcn5rpkf", "3zvftXwm6SUPNiJe");
 
-                //var res = await mpesaclient.STKPush("174379", "254704767562", 10, "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919", "https://urdomain.ext/path", accountReference: "1234567890", transactionDesc: "Goods payment");
+                var res = await mpesaclient.STKPush("174379", "254704767562", 10, "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919", "https://urdomain.ext/path", accountReference: "1234567890", transactionDesc: "Goods payment");
 
-                //Console.WriteLine(res.ToString());
+                Console.WriteLine(res.ToString());
 
 
-                var regRes = await mpesaclient.C2BRegisterUrl(new C2BRegisterURLRequest()
-                {
-                    ValidationURL = "https://9514805e.ngrok.io/api/Callback/C2BValidation",
-                    ConfirmationURL = "https://9514805e.ngrok.io/api/Callback/C2BConfirmation",
-                    //174379
-                    //600000
-                    //601497
-                    ShortCode = "601497",
-                    ResponseType = "Completed"
-                });
+                //var regRes = await mpesaclient.C2BRegisterUrl(new C2BRegisterURLRequest()
+                //{
+                //    ValidationURL = "https://9514805e.ngrok.io/api/Callback/C2BValidation",
+                //    ConfirmationURL = "https://9514805e.ngrok.io/api/Callback/C2BConfirmation",
+                //    //174379
+                //    //600000
+                //    //601497
+                //    ShortCode = "601497",
+                //    ResponseType = "Completed"
+                //});
 
-                Console.WriteLine(regRes.ToString());
+                //Console.WriteLine(regRes.ToString());
 
                 //var simulateC2B = await mpesaclient.C2BSimulateTransaction(new C2BSimulateTransactionRequest()
                 //{
