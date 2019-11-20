@@ -13,7 +13,7 @@ namespace MpesaSDK.NET.Dtos.Requests
         public string CheckoutRequestID { get; set; }
         
         [JsonProperty("Timestamp")]
-        public string Timestamp { get; set; } = DateTime.Now.ToString("yyyymmddhhiiss");
+        public string Timestamp { get; set; } = DateTime.Now.ToString("yyyyMMddHHmmss");
 
         public string Passkey { get; set; }
 
