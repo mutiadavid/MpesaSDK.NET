@@ -148,10 +148,13 @@ namespace MpesaSDK.NET
             };
         }
 
-        private async Task<(StkPushSuccessResponse StkPushSuccessResponse, ErrorResponse ErrorResponse, bool IsSuccessful)> STKPush(STKPushRequest request)
+        #endregion
+
+        #region Public methods
+        public async Task<(StkPushSuccessResponse StkPushSuccessResponse, ErrorResponse ErrorResponse, bool IsSuccessful)> STKPush(STKPushRequest request)
         {
             this.ValidatePhoneNumber(request.PhoneNumber);
-            SameValueValidator.ValidateSameValue(request.PhoneNumber, request.PartyA, "PatyA", "PhoneNumber");
+            SameValueValidator.ValidateSameValue(request.PhoneNumber, request.PartyA,"PatyA","PhoneNumber");
 
             this.ValidateTimestamp(request.Timestamp);
 
@@ -166,10 +169,6 @@ namespace MpesaSDK.NET
 
             return await PostRequestAsync<StkPushSuccessResponse>("mpesa/stkpush/v1/processrequest", request.ToString());
         }
-
-        #endregion
-
-        #region Public methods
 
         public async Task<(StkPushSuccessResponse StkPushSuccessResponse, ErrorResponse ErrorResponse, bool IsSuccessful)> STKPush(string businessCode,string phoneNumber,long amount,string passKey,string callbackUrl,string accountReference = "12345",string transactionDesc = "Payment", string transactionType = "CustomerPayBillOnline")
         {
