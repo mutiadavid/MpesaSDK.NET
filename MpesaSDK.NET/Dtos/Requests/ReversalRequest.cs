@@ -13,8 +13,8 @@ namespace MpesaSDK.NET.Dtos.Requests
         public string SecurityCredential { get; set; }
         [JsonProperty("CommandID")]
         public string CommandID { get; set; }
-        [JsonProperty("PartyA")]
-        public string PartyA { get; set; }
+        [JsonProperty("ReceiverParty")]
+        public string ReceiverParty { get; set; }
         [JsonProperty("RecieverIdentifierType")]
         public string RecieverIdentifierType { get; set; }
         [JsonProperty("Remarks")]

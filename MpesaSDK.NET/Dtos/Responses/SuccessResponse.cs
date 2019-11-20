@@ -24,7 +24,7 @@ namespace MpesaSDK.NET.Dtos.Responses
         [JsonProperty("ConversationID")]
         public string ConversationID { get; set; }
 
-        [JsonProperty("OriginatorCoversationID")]
+        [JsonProperty("OriginatorConversationID")]
         public string OriginatorConversationID { get; set; }
         public override string ToString()
         {
