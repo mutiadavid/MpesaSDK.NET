@@ -21,15 +21,18 @@ namespace ClientTest
                 //Console.WriteLine(res.ToString());
 
 
-                //var regRes = await mpesaclient.C2BRegisterUrl(new C2BRegisterURLRequest()
-                //{
-                //    ValidationURL = "https://6e4fd229.ngrok.io/api/Callback/C2BValidation",
-                //    ConfirmationURL = "https://6e4fd229.ngrok.io/api/Callback/C2BConfirmation",
-                //    ShortCode = "600129",
-                //    ResponseType = "Completed"
-                //});
-                //
-                //Console.WriteLine(regRes.ToString());
+                var regRes = await mpesaclient.C2BRegisterUrl(new C2BRegisterURLRequest()
+                {
+                    ValidationURL = "https://9514805e.ngrok.io/api/Callback/C2BValidation",
+                    ConfirmationURL = "https://9514805e.ngrok.io/api/Callback/C2BConfirmation",
+                    //174379
+                    //600000
+                    //601497
+                    ShortCode = "601497",
+                    ResponseType = "Completed"
+                });
+
+                Console.WriteLine(regRes.ToString());
 
                 //var simulateC2B = await mpesaclient.C2BSimulateTransaction(new C2BSimulateTransactionRequest()
                 //{
@@ -44,7 +47,7 @@ namespace ClientTest
 
                 //Console.WriteLine(simulateC2B.ToString());
 
-               
+
             }
             catch (Exception ex)
             {
