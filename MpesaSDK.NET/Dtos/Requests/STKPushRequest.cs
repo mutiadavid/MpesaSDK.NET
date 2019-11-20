@@ -25,16 +25,10 @@ namespace MpesaSDK.NET.Dtos.Requests
         public string AccountReference { get; set; }
         [JsonProperty("TransactionDesc")]
         public string TransactionDesc { get; set; }
-        
         [JsonProperty("Timestamp")]
-        public string Timestamp { get; set; } = DateTime.Now.ToString("yyyyMMddHHmmss");
-
-        public string Passkey { get; set; }
-
-        private string CalculatePassword => Convert.ToBase64String(Encoding.UTF8.GetBytes(BusinessShortCode + Passkey + Timestamp));
-
+        public string Timestamp { get; set; }               
         [JsonProperty("Password")]
-        public string Password { get => CalculatePassword; set => value = CalculatePassword; } 
+        public string Password { get; set; }
         
         public override string ToString()
         {
