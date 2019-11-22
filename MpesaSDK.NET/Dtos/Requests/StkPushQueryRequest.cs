@@ -11,11 +11,12 @@ namespace MpesaSDK.NET.Dtos.Requests
         public string BusinessShortCode { get; set; }
         [JsonProperty("CheckoutRequestID")]
         public string CheckoutRequestID { get; set; }
+        
         [JsonProperty("Timestamp")]
-        public string Timestamp { get; set; }               
-        [JsonProperty("Password")]
-        public string Password { get; set; }
+        public string Timestamp { get; set; } 
 
+        [JsonProperty("Password")]
+        public string Password { get; set; } 
         public override string ToString()
         {
             return JsonConvert.SerializeObject(this);

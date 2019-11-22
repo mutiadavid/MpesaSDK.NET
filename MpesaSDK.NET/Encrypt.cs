@@ -15,7 +15,7 @@ namespace MpesaSDK.NET
         /// </summary>
         /// <param name="data">data to be encrypted with MPesa Cert</param>
         /// <returns></returns>
-        public static string MpesaSecurityCredential(this string pass)
+        public static string ToMpesaSecurityCredential(this string pass)
         {
             string certPulicKey = ((RSA)new X509Certificate2(Convert.FromBase64String(certKey)).PublicKey.Key).ToXmlString2(false);
             byte[] bytes = Encoding.UTF8.GetBytes(pass);

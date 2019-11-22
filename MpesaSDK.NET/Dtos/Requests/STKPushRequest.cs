@@ -25,11 +25,13 @@ namespace MpesaSDK.NET.Dtos.Requests
         public string AccountReference { get; set; }
         [JsonProperty("TransactionDesc")]
         public string TransactionDesc { get; set; }
-        [JsonProperty("Timestamp")]
-        public string Timestamp { get; set; }               
-        [JsonProperty("Password")]
-        public string Password { get; set; }
         
+        [JsonProperty("Timestamp")]
+        public string Timestamp { get; set; } 
+                
+        [JsonProperty("Password")]
+        public string Password { get; set; } 
+         
         public override string ToString()
         {
             return JsonConvert.SerializeObject(this);
