@@ -16,7 +16,7 @@ namespace ClientTest
 
                 MpesaClient mpesaclient = new MpesaClient("RueQt1MojjqLivNkgPcejh6VFcn5rpkf", "3zvftXwm6SUPNiJe");
 
-                var res = await mpesaclient.STKPush("174379", "254704767562", 10, "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919", "https://urdomain.ext/path", accountReference: "1234567890", transactionDesc: "Goods payment");
+                var res = await mpesaclient.STKPushAsync("174379", "254704767562", 10, "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919", "https://urdomain.ext/path", accountReference: "1234567890", transactionDesc: "Goods payment");
 
                 Console.WriteLine(res.ToString());
 
@@ -109,7 +109,7 @@ namespace ClientTest
             var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
             var password = Convert.ToBase64String(Encoding.UTF8.GetBytes($"174379bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919{timestamp}"));
 
-            var result = await mpesaclient.StkPushQuery(new MpesaSDK.NET.Dtos.Requests.StkPushQueryRequest
+            var result = await mpesaclient.StkPushQueryAsync(new MpesaSDK.NET.Dtos.Requests.StkPushQueryRequest
             {
                 BusinessShortCode = "174379",
                 CheckoutRequestID = "ws_CO_DMZ_155474528_19112018171250687",

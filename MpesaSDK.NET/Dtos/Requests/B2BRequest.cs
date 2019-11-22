@@ -29,8 +29,8 @@ namespace MpesaSDK.NET.Dtos.Requests
         public string QueueTimeOutURL { get; set; }
         [JsonProperty("ResultURL")]
         public string ResultURL { get; set; }
-        [JsonProperty("Occasion")]
-        public string Occasion { get; set; }
+        //[JsonProperty("Occasion")]
+        //public string Occasion { get; set; }
         [JsonProperty("AccountReference")]
         public string AccountReference { get; set; }
 

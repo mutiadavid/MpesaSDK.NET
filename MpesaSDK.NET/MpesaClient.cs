@@ -1,6 +1,7 @@
 ﻿using MpesaSDK.NET.Dtos;
 using MpesaSDK.NET.Dtos.Requests;
 using MpesaSDK.NET.Dtos.Responses;
+using MpesaSDK.NET.Enums;
 using MpesaSDK.NET.Validators;
 using Newtonsoft.Json;
 using RestSharp;
@@ -17,7 +18,6 @@ namespace MpesaSDK.NET
         private DateTime _tokenExpiresIn;
         private readonly string _consumerKey, _consumerSecret;
         private readonly bool _isSandBox;
-        private string accesstokenLock = null;
         public MpesaClient(string consumerKey, string consumerSecret, bool sandbox = true)
         {
             _accessToken = "";
@@ -36,9 +36,6 @@ namespace MpesaSDK.NET
         #region private methods
         private async Task<string> GetAccessToken()
         {
-            //lock access token to update
-            //Monitor.Enter(accesstokenLock);
-
             var now = DateTime.Now;
             if (_tokenExpiresIn > now)
             {
@@ -70,7 +67,6 @@ namespace MpesaSDK.NET
             }
             finally
             {
-                // Monitor.Exit(accesstokenLock);
             }
         }
 
@@ -151,10 +147,15 @@ namespace MpesaSDK.NET
         #endregion
 
         #region Public methods
-        public async Task<(StkPushSuccessResponse StkPushSuccessResponse, ErrorResponse ErrorResponse, bool IsSuccessful)> STKPush(STKPushRequest request)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public async Task<(StkPushSuccessResponse StkPushSuccessResponse, ErrorResponse ErrorResponse, bool IsSuccessful)> STKPushAsync(STKPushRequest request)
         {
             this.ValidatePhoneNumber(request.PhoneNumber);
-            SameValueValidator.ValidateSameValue(request.PhoneNumber, request.PartyA,"PatyA","PhoneNumber");
+            SameValueValidator.ValidateSameValue(request.PhoneNumber, request.PartyA, "PatyA", "PhoneNumber");
 
             this.ValidateTimestamp(request.Timestamp);
 
@@ -167,21 +168,41 @@ namespace MpesaSDK.NET
 
             URLValidator.ValidateURL(request.CallBackURL, "CallBackURL");
 
-            return await PostRequestAsync<StkPushSuccessResponse>("mpesa/stkpush/v1/processrequest", request.ToString());
+            var response = await PostRequestAsync<StkPushSuccessResponse>("mpesa/stkpush/v1/processrequest", request.ToString());
+
+            //return new StkPushResponse()
+            //{
+            //    ErrorResponse = response.ErrorResponse,
+            //    SuccessResponse = response.SuccessResponse,
+            //    IsSuccess = response.IsSuccessful
+            //};
+
+            return response;
         }
 
-        public async Task<(StkPushSuccessResponse StkPushSuccessResponse, ErrorResponse ErrorResponse, bool IsSuccessful)> STKPush(string businessCode,string phoneNumber,long amount,string passKey,string callbackUrl,string accountReference = "12345",string transactionDesc = "Payment", string transactionType = "CustomerPayBillOnline")
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="businessCode"></param>
+        /// <param name="phoneNumber"></param>
+        /// <param name="amount"></param>
+        /// <param name="passKey"></param>
+        /// <param name="callbackUrl"></param>
+        /// <param name="accountReference"></param>
+        /// <param name="transactionDesc"></param>
+        /// <param name="transactionType"></param>
+        /// <returns></returns>
+        public Task<(StkPushSuccessResponse StkPushSuccessResponse, ErrorResponse ErrorResponse, bool IsSuccessful)> STKPushAsync(string businessCode, string phoneNumber, long amount, string passKey, string callbackUrl, string accountReference = "12345", string transactionDesc = "Payment", Command command = Command.CustomerPayBillOnline)
         {
-            var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
-            var password = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{businessCode}{passKey}{timestamp}"));
+            var (password, timestamp) = HelperFunctions.MpesaPassword(passKey, businessCode);
 
-            return await STKPush(new STKPushRequest()
+            return STKPushAsync(new STKPushRequest()
             {
                 BusinessShortCode = businessCode,
                 PartyA = phoneNumber,
                 PartyB = businessCode,
                 PhoneNumber = phoneNumber,
-                TransactionType =  transactionType,
+                TransactionType = command.ToString(),
                 TransactionDesc = transactionDesc,
                 Amount = amount,
                 CallBackURL = callbackUrl,
@@ -192,43 +213,252 @@ namespace MpesaSDK.NET
         }
 
 
-        public async Task<(StkPushQuerySuccessResponse StkPushQueryRequest, ErrorResponse ErrorResponse, bool IsSuccessful)> StkPushQuery(StkPushQueryRequest request)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public async Task<(StkPushQuerySuccessResponse StkPushQueryRequest, ErrorResponse ErrorResponse, bool IsSuccessful)> StkPushQueryAsync(StkPushQueryRequest request)
         {
-            return await PostRequestAsync<StkPushQuerySuccessResponse>("mpesa/stkpushquery/v1/query", request.ToString());
+            var response = await PostRequestAsync<StkPushQuerySuccessResponse>("mpesa/stkpushquery/v1/query", request.ToString());
+
+            //return new StkPushQueryResponse()
+            //{
+            //    ErrorResponse = response.ErrorResponse,
+            //    SuccessResponse = response.SuccessResponse,
+            //    IsSuccess = response.IsSuccessful
+            //};
+
+            return response;
         }
 
-        public async Task<MpesaResponse> B2C(B2CRequest request)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="businessShortCode"></param>
+        /// <param name="checkoutRequestID"></param>
+        /// <param name="passkey"></param>
+        /// <returns></returns>
+        public Task<(StkPushQuerySuccessResponse StkPushQueryRequest, ErrorResponse ErrorResponse, bool IsSuccessful)> StkPushQueryAsync(string businessShortCode, string checkoutRequestID, string passkey)
         {
-            return await CommonMpesaPostAsync("mpesa/b2c/v1/paymentrequest", request.ToString());
+            var (password, timestamp) = HelperFunctions.MpesaPassword(passkey, businessShortCode);
+
+            return StkPushQueryAsync(new StkPushQueryRequest()
+            {
+                BusinessShortCode = businessShortCode,
+                CheckoutRequestID = checkoutRequestID,
+                Password = password,
+                Timestamp = timestamp
+            });
         }
 
-        public async Task<MpesaResponse> B2B(B2BRequest request)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<MpesaResponse> B2CAsync(B2CRequest request)
         {
-            return await CommonMpesaPostAsync("mpesa/b2b/v1/paymentrequest", request.ToString());
+            //TODO: Validations
+            return CommonMpesaPostAsync("mpesa/b2c/v1/paymentrequest", request.ToString());
         }
 
-        public async Task<MpesaResponse> C2BRegisterUrl(C2BRegisterURLRequest request)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="initiatorName"></param>
+        /// <param name="initiatorPassword"></param>
+        /// <param name="command"></param>
+        /// <param name="amount"></param>
+        /// <param name="partyA"></param>
+        /// <param name="partyB"></param>
+        /// <param name="remarks"></param>
+        /// <param name="queueTimeOutURL"></param>
+        /// <param name="resultURL"></param>
+        /// <param name="occassion"></param>
+        /// <returns></returns>
+        public Task<MpesaResponse> B2CAsync(string initiatorName, string initiatorPassword, Command command, long amount, string partyA, string partyB, string remarks, string queueTimeOutURL, string resultURL, string occassion)
         {
-            return await CommonMpesaPostAsync("mpesa/c2b/v1/registerurl", request.ToString());
+            return B2CAsync(new B2CRequest()
+            {
+                InitiatorName = initiatorName,
+                SecurityCredential = initiatorPassword.ToMpesaSecurityCredential(),
+                CommandID = command.ToString(),
+                Amount = amount,
+                Occasion = occassion,
+                PartyA = partyA,
+                PartyB = partyB,
+                QueueTimeOutURL = queueTimeOutURL,
+                Remarks = remarks,
+                ResultURL = resultURL
+            });
         }
 
-        public async Task<MpesaResponse> C2BSimulateTransaction(C2BSimulateTransactionRequest request)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<MpesaResponse> B2BAsync(B2BRequest request)
         {
-            return await CommonMpesaPostAsync("mpesa/c2b/v1/simulate", request.ToString());
-        }
-        public async Task<MpesaResponse> AccountBalance(AccountBalanceRequest request)
-        {
-            return await CommonMpesaPostAsync("mpesa/accountbalance/v1/query", request.ToString());
-        }
-
-        public async Task<MpesaResponse> TransactionStatus(TransactionStatusRequest request)
-        {
-            return await CommonMpesaPostAsync("mpesa/transactionstatus/v1/query", request.ToString());
+            return CommonMpesaPostAsync("mpesa/b2b/v1/paymentrequest", request.ToString());
         }
 
-        public async Task<MpesaResponse> Reversal(ReversalRequest request)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="initiator"></param>
+        /// <param name="initiatorPassword"></param>
+        /// <param name="command"></param>
+        /// <param name="amount"></param>
+        /// <param name="partyA"></param>
+        /// <param name="partyB"></param>
+        /// <param name="senderIdentifier"></param>
+        /// <param name="recieverIdentifierType"></param>
+        /// <param name="remarks"></param>
+        /// <param name="queueTimeOutURL"></param>
+        /// <param name="resultURL"></param>
+        /// <param name="accountReference"></param>
+        /// <returns></returns>
+        public Task<MpesaResponse> B2BAsync(string initiator, string initiatorPassword, Command command, long amount, string partyA, string partyB, IdentifierType senderIdentifier, IdentifierType recieverIdentifierType, string remarks, string queueTimeOutURL, string resultURL, string accountReference)
         {
-            return await CommonMpesaPostAsync("mpesa/reversal/v1/request", request.ToString());
+            return B2BAsync(new B2BRequest
+            {
+                Initiator = initiator,
+                PartyA = partyA,
+                PartyB = partyB,
+                CommandID = command.ToString(),
+                Amount = amount,
+                AccountReference = accountReference,
+                SecurityCredential = initiatorPassword.ToMpesaSecurityCredential(),
+                Remarks = remarks,
+                QueueTimeOutURL = queueTimeOutURL,
+                ResultURL = resultURL,
+                RecieverIdentifierType = recieverIdentifierType.ToString("d"),
+                SenderIdentifier = senderIdentifier.ToString("d")
+            });
+        }
+
+
+        public Task<MpesaResponse> C2BRegisterUrlAsync(C2BRegisterURLRequest request)
+        {
+            return CommonMpesaPostAsync("mpesa/c2b/v1/registerurl", request.ToString());
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="validationURL"></param>
+        /// <param name="confirmationURL"></param>
+        /// <param name="responseType"></param>
+        /// <param name="shortCode"></param>
+        /// <returns></returns>
+        public Task<MpesaResponse> C2BRegisterUrlAsync(string validationURL, string confirmationURL, ResponseType responseType, string shortCode)
+        {
+            return C2BRegisterUrlAsync(new C2BRegisterURLRequest()
+            {
+                ValidationURL = validationURL,
+                ConfirmationURL = confirmationURL,
+                ShortCode = shortCode,
+                ResponseType = responseType.ToString()
+            });
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<MpesaResponse> C2BSimulateTransactionAsync(C2BSimulateTransactionRequest request)
+        {
+            return CommonMpesaPostAsync("mpesa/c2b/v1/simulate", request.ToString());
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="amount"></param>
+        /// <param name="msisdn"></param>
+        /// <param name="billRefNumber"></param>
+        /// <param name="shortCode"></param>
+        /// <returns></returns>
+        public Task<MpesaResponse> C2BSimulateTransactionAsync(Command command, long amount, string msisdn, string billRefNumber, string shortCode)
+        {
+            return C2BSimulateTransactionAsync(new C2BSimulateTransactionRequest()
+            {
+                CommandID = command.ToString(),
+                MSISDN = msisdn,
+                Amount = amount,
+                BillRefNumber = billRefNumber,
+                ShortCode = shortCode
+            });
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public Task<MpesaResponse> AccountBalanceAsync(AccountBalanceRequest request)
+        {
+            return CommonMpesaPostAsync("mpesa/accountbalance/v1/query", request.ToString());
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="partyA"></param>
+        /// <param name="identifierType"></param>
+        /// <param name="initiator"></param>
+        /// <param name="initiatorPassword"></param>
+        /// <param name="queueTimeOutURL"></param>
+        /// <param name="resultURL"></param>
+        /// <param name="remarks"></param>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        public Task<MpesaResponse> AccountBalanceAsync(string partyA, IdentifierType identifierType, string initiator, string initiatorPassword, string queueTimeOutURL, string resultURL, string remarks = "Account Balance Check", Command command = Command.AccountBalance)
+        {
+            return AccountBalanceAsync(new AccountBalanceRequest()
+            {
+                AccountType = identifierType.ToString("d"),
+                IdentifierType = identifierType.ToString("d"),
+                PartyA = partyA,
+                CommandID = command.ToString(),
+                Initiator = initiator,
+                SecurityCredential = initiatorPassword.ToMpesaSecurityCredential(),
+                Remarks = remarks,
+                QueueTimeOutURL = queueTimeOutURL,
+                ResultURL = resultURL
+            });
+        }
+
+        public Task<MpesaResponse> TransactionStatusAsync(TransactionStatusRequest request)
+        {
+            return CommonMpesaPostAsync("mpesa/transactionstatus/v1/query", request.ToString());
+        }
+
+        public Task<MpesaResponse> TransactionStatusAsync(string partyA, IdentifierType identifierType, string remarks, string initiator, string initiatorPassword, string queueTimeOutURL, string resultURL, string transactionID, string occasion = "", Command command = Command.TransactionStatusQuery)
+        {
+            return TransactionStatusAsync(new TransactionStatusRequest()
+            {
+                PartyA = partyA,
+                ShortCode = partyA,
+                CommandID = command.ToString(),
+                IdentifierType = identifierType.ToString("d"),
+                Initiator = initiator,
+                SecurityCredential = initiatorPassword.ToMpesaSecurityCredential(),
+                TransactionID = transactionID,
+                Occasion = occasion,
+                Remarks = remarks,
+                QueueTimeOutURL = queueTimeOutURL,
+                ResultURL = resultURL
+            });
+        }
+
+        public Task<MpesaResponse> ReversalAsync(ReversalRequest request)
+        {
+            return CommonMpesaPostAsync("mpesa/reversal/v1/request", request.ToString());
         }
 
         #endregion
