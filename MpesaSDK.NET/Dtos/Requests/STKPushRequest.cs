@@ -31,7 +31,7 @@ namespace MpesaSDK.NET.Dtos.Requests
                 
         [JsonProperty("Password")]
         public string Password { get; set; } 
-        
+         
         public override string ToString()
         {
             return JsonConvert.SerializeObject(this);

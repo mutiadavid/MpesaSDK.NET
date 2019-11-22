@@ -15,8 +15,6 @@ namespace MpesaSDK.NET.Dtos.Requests
         public string IdentifierType { get; set; }
         [JsonProperty("Remarks")]
         public string Remarks { get; set; }
-        [JsonProperty("AccountType")]
-        public string AccountType { get; set; }
         [JsonProperty("Initiator")]
         public string Initiator { get; set; }
         [JsonProperty("SecurityCredential")]
