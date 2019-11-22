@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace MpesaSDK.NET.Dtos.Responses
 {
-    public class LipaQueryResponse
+    public class StkPushQueryResponse
     {
         [JsonProperty("IsSuccess")]
         public bool IsSuccess { get; set; }

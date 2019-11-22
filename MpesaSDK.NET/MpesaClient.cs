@@ -152,7 +152,7 @@ namespace MpesaSDK.NET
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<(StkPushSuccessResponse StkPushSuccessResponse, ErrorResponse ErrorResponse, bool IsSuccessful)> STKPushAsync(STKPushRequest request)
+        public async Task<StkPushResponse> STKPushAsync(STKPushRequest request)
         {
             this.ValidatePhoneNumber(request.PhoneNumber);
             SameValueValidator.ValidateSameValue(request.PhoneNumber, request.PartyA, "PatyA", "PhoneNumber");
@@ -170,14 +170,12 @@ namespace MpesaSDK.NET
 
             var response = await PostRequestAsync<StkPushSuccessResponse>("mpesa/stkpush/v1/processrequest", request.ToString());
 
-            //return new StkPushResponse()
-            //{
-            //    ErrorResponse = response.ErrorResponse,
-            //    SuccessResponse = response.SuccessResponse,
-            //    IsSuccess = response.IsSuccessful
-            //};
-
-            return response;
+            return new StkPushResponse()
+            {
+                ErrorResponse = response.ErrorResponse,
+                SuccessResponse = response.SuccessResponse,
+                IsSuccess = response.IsSuccessful
+            };
         }
 
         /// <summary>
@@ -192,7 +190,7 @@ namespace MpesaSDK.NET
         /// <param name="transactionDesc"></param>
         /// <param name="transactionType"></param>
         /// <returns></returns>
-        public Task<(StkPushSuccessResponse StkPushSuccessResponse, ErrorResponse ErrorResponse, bool IsSuccessful)> STKPushAsync(string businessCode, string phoneNumber, long amount, string passKey, string callbackUrl, string accountReference = "12345", string transactionDesc = "Payment", Command command = Command.CustomerPayBillOnline)
+        public Task<StkPushResponse> STKPushAsync(string businessCode, string phoneNumber, long amount, string passKey, string callbackUrl, string accountReference = "12345", string transactionDesc = "Payment", Command command = Command.CustomerPayBillOnline)
         {
             var (password, timestamp) = HelperFunctions.MpesaPassword(passKey, businessCode);
 
@@ -218,18 +216,17 @@ namespace MpesaSDK.NET
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<(StkPushQuerySuccessResponse StkPushQueryRequest, ErrorResponse ErrorResponse, bool IsSuccessful)> StkPushQueryAsync(StkPushQueryRequest request)
+        public async Task<StkPushQueryResponse> StkPushQueryAsync(StkPushQueryRequest request)
         {
             var response = await PostRequestAsync<StkPushQuerySuccessResponse>("mpesa/stkpushquery/v1/query", request.ToString());
 
-            //return new StkPushQueryResponse()
-            //{
-            //    ErrorResponse = response.ErrorResponse,
-            //    SuccessResponse = response.SuccessResponse,
-            //    IsSuccess = response.IsSuccessful
-            //};
+            return new StkPushQueryResponse()
+            {
+                ErrorResponse = response.ErrorResponse,
+                SuccessResponse = response.SuccessResponse,
+                IsSuccess = response.IsSuccessful
+            };
 
-            return response;
         }
 
         /// <summary>
@@ -239,7 +236,7 @@ namespace MpesaSDK.NET
         /// <param name="checkoutRequestID"></param>
         /// <param name="passkey"></param>
         /// <returns></returns>
-        public Task<(StkPushQuerySuccessResponse StkPushQueryRequest, ErrorResponse ErrorResponse, bool IsSuccessful)> StkPushQueryAsync(string businessShortCode, string checkoutRequestID, string passkey)
+        public Task<StkPushQueryResponse> StkPushQueryAsync(string businessShortCode, string checkoutRequestID, string passkey)
         {
             var (password, timestamp) = HelperFunctions.MpesaPassword(passkey, businessShortCode);
 
@@ -421,7 +418,7 @@ namespace MpesaSDK.NET
         {
             return AccountBalanceAsync(new AccountBalanceRequest()
             {
-                AccountType = identifierType.ToString("d"),
+                //AccountType = identifierType.ToString("d"),
                 IdentifierType = identifierType.ToString("d"),
                 PartyA = partyA,
                 CommandID = command.ToString(),
