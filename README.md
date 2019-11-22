@@ -1,7 +1,7 @@
 # MpesaSDK.NET
 Mpesa Daraja SDK implementation for .net.
 
-[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fmutiadavid%2FMpesaSDK.NET%2Fbadge%3Fref%3Dmaster&style=for-the-badge)](https://actions-badge.atrox.dev/mutiadavid/MpesaSDK.NET/goto?ref=master)
+[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fmutiadavid%2FMpesaSDK.NET%2Fbadge%3Fref%3Dmaster&style=for-the-badge)](https://actions-badge.atrox.dev/mutiadavid/MpesaSDK.NET/goto?ref=master) ![Nuget](https://img.shields.io/nuget/v/MpesaSDK.NET?style=for-the-badge) ![Nuget](https://img.shields.io/nuget/dt/MpesaSDK.NET?style=for-the-badge) 
 
 
 For More Info check [Safaricom Mpesa Documentation](https://developer.safaricom.co.ke/docs#authentication)
