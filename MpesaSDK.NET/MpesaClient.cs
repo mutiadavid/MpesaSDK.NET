@@ -144,15 +144,12 @@ namespace MpesaSDK.NET
             };
         }
 
-        #endregion
-
-        #region Public methods
         /// <summary>
         /// 
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<StkPushResponse> STKPushAsync(STKPushRequest request)
+        private async Task<StkPushResponse> STKPushAsync(STKPushRequest request)
         {
             this.ValidatePhoneNumber(request.PhoneNumber);
             SameValueValidator.ValidateSameValue(request.PhoneNumber, request.PartyA, "PatyA", "PhoneNumber");
@@ -181,14 +178,96 @@ namespace MpesaSDK.NET
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="businessCode"></param>
-        /// <param name="phoneNumber"></param>
-        /// <param name="amount"></param>
-        /// <param name="passKey"></param>
-        /// <param name="callbackUrl"></param>
-        /// <param name="accountReference"></param>
-        /// <param name="transactionDesc"></param>
-        /// <param name="transactionType"></param>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        private async Task<StkPushQueryResponse> StkPushQueryAsync(StkPushQueryRequest request)
+        {
+            var response = await PostRequestAsync<StkPushQuerySuccessResponse>("mpesa/stkpushquery/v1/query", request.ToString());
+
+            return new StkPushQueryResponse()
+            {
+                ErrorResponse = response.ErrorResponse,
+                SuccessResponse = response.SuccessResponse,
+                IsSuccess = response.IsSuccessful
+            };
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        private Task<MpesaResponse> B2CAsync(B2CRequest request)
+        {
+            //TODO: Validations
+            return CommonMpesaPostAsync("mpesa/b2c/v1/paymentrequest", request.ToString());
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        private Task<MpesaResponse> B2BAsync(B2BRequest request)
+        {
+            return CommonMpesaPostAsync("mpesa/b2b/v1/paymentrequest", request.ToString());
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        private Task<MpesaResponse> C2BRegisterUrlAsync(C2BRegisterURLRequest request)
+        {
+            return CommonMpesaPostAsync("mpesa/c2b/v1/registerurl", request.ToString());
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        private Task<MpesaResponse> C2BSimulateTransactionAsync(C2BSimulateTransactionRequest request)
+        {
+            return CommonMpesaPostAsync("mpesa/c2b/v1/simulate", request.ToString());
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        private Task<MpesaResponse> AccountBalanceAsync(AccountBalanceRequest request)
+        {
+            return CommonMpesaPostAsync("mpesa/accountbalance/v1/query", request.ToString());
+        }
+
+        private Task<MpesaResponse> TransactionStatusAsync(TransactionStatusRequest request)
+        {
+            return CommonMpesaPostAsync("mpesa/transactionstatus/v1/query", request.ToString());
+        }
+
+        private Task<MpesaResponse> ReversalAsync(ReversalRequest request)
+        {
+            return CommonMpesaPostAsync("mpesa/reversal/v1/request", request.ToString());
+        }
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Use this API to initiate online payment on behalf of a customer.
+        /// </summary>
+        /// <param name="businessCode">The organization receiving the funds. The parameter expected is a 5 to 6 digit as defined on the Shortcode description above. This can be the same as BusinessShortCode value above</param>
+        /// <param name="phoneNumber">The phone number sending money. The parameter expected is a Valid Safaricom Mobile Number that is M-Pesa registered in the format 2547XXXXXXXX</param>
+        /// <param name="amount">The amount to be transacted.</param>
+        /// <param name="passKey">PassKey from safaricom portal</param>
+        /// <param name="callbackUrl">A CallBack URL is a valid secure URL that is used to receive notifications from M-Pesa API. It is the endpoint to which the results will be sent by M-Pesa API.</param>
+        /// <param name="accountReference">Account Reference: This is an Alpha-Numeric parameter that is defined by your system as an Identifier of the transaction for CustomerPayBillOnline transaction type. Along with the business name, this value is also displayed to the customer in the STK Pin Prompt message. Maximum of 12 characters.</param>
+        /// <param name="transactionDesc">This is any additional information/comment that can be sent along with the request from your system. Maximum of 13 Characters.</param>
+        /// <param name="command">This is the transaction type that is used to identify the transaction when sending the request to M-Pesa. The transaction type for M-Pesa Express is "CustomerPayBillOnline" </param>
         /// <returns></returns>
         public Task<StkPushResponse> STKPushAsync(string businessCode, string phoneNumber, long amount, string passKey, string callbackUrl, string accountReference = "12345", string transactionDesc = "Payment", Command command = Command.CustomerPayBillOnline)
         {
@@ -210,31 +289,12 @@ namespace MpesaSDK.NET
             });
         }
 
-
         /// <summary>
-        /// 
+        /// Use this API to check the status of a Lipa Na M-Pesa Online Payment
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public async Task<StkPushQueryResponse> StkPushQueryAsync(StkPushQueryRequest request)
-        {
-            var response = await PostRequestAsync<StkPushQuerySuccessResponse>("mpesa/stkpushquery/v1/query", request.ToString());
-
-            return new StkPushQueryResponse()
-            {
-                ErrorResponse = response.ErrorResponse,
-                SuccessResponse = response.SuccessResponse,
-                IsSuccess = response.IsSuccessful
-            };
-
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="businessShortCode"></param>
-        /// <param name="checkoutRequestID"></param>
-        /// <param name="passkey"></param>
+        /// <param name="businessShortCode">This is organizations shortcode (Paybill or Buygoods - A 5 to 6 digit account number) used to identify an organization and receive the transaction.</param>
+        /// <param name="checkoutRequestID">This is a global unique identifier of the processed checkout transaction request.; ws_CO_DMZ_123212312_2342347678234.</param>
+        /// <param name="passkey">passkey: from safaricom</param>
         /// <returns></returns>
         public Task<StkPushQueryResponse> StkPushQueryAsync(string businessShortCode, string checkoutRequestID, string passkey)
         {
@@ -250,29 +310,24 @@ namespace MpesaSDK.NET
         }
 
         /// <summary>
-        /// 
+        /// Use this API to transact between an M-Pesa short code to a phone number registered on M-Pesa.
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public Task<MpesaResponse> B2CAsync(B2CRequest request)
-        {
-            //TODO: Validations
-            return CommonMpesaPostAsync("mpesa/b2c/v1/paymentrequest", request.ToString());
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="initiatorName"></param>
-        /// <param name="initiatorPassword"></param>
-        /// <param name="command"></param>
-        /// <param name="amount"></param>
-        /// <param name="partyA"></param>
-        /// <param name="partyB"></param>
-        /// <param name="remarks"></param>
-        /// <param name="queueTimeOutURL"></param>
-        /// <param name="resultURL"></param>
-        /// <param name="occassion"></param>
+        /// <param name="initiatorName">The username of the M-Pesa B2C account API operator. 
+        /// NOTE: the access channel for this operator myst be API and the account must be in active status
+        ///</param>
+        /// <param name="initiatorPassword">Initiator Password</param>
+        /// <param name="command">This is a unique command that specifies B2C transaction type.
+        /// SalaryPayment: This supports sending money to both registere and unregistered M-Pesa customers.
+        /// BusinessPayment: This is a normal business to customer payment, supports only M-Pesa registered customers.
+        /// PromotionPayment: This is a promotional payment to customers.The M-Pesa notification message is a congratulatory message.Supports only M-Pesa registered customers.
+        ///</param>
+        /// <param name="amount">The amount of money being sent to the customer.</param>
+        /// <param name="partyA">This is the B2C organization shortcode from which the money is to be sent.</param>
+        /// <param name="partyB">This is the customer mobile number  to receive the amount. - The number should have the country code (254) without the plus sign.</param>
+        /// <param name="remarks">Any additional information to be associated with the transaction.</param>
+        /// <param name="queueTimeOutURL">This is the URL to be specified in your request that will be used by API Proxy to send notification incase the payment request is timed out while awaiting processing in the queue. </param>
+        /// <param name="resultURL">This is the URL to be specified in your request that will be used by M-Pesa to send notification upon processing of the payment request.</param>
+        /// <param name="occassion">Any additional information to be associated with the transaction.</param>
         /// <returns></returns>
         public Task<MpesaResponse> B2CAsync(string initiatorName, string initiatorPassword, Command command, long amount, string partyA, string partyB, string remarks, string queueTimeOutURL, string resultURL, string occassion)
         {
@@ -292,30 +347,20 @@ namespace MpesaSDK.NET
         }
 
         /// <summary>
-        /// 
+        /// This API enables Business to Business (B2B) transactions between a business and another business. Use of this API requires a valid and verified B2B M-Pesa short code for the business initiating the transaction and the both businesses involved in the transaction.
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public Task<MpesaResponse> B2BAsync(B2BRequest request)
-        {
-            return CommonMpesaPostAsync("mpesa/b2b/v1/paymentrequest", request.ToString());
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="initiator"></param>
-        /// <param name="initiatorPassword"></param>
-        /// <param name="command"></param>
-        /// <param name="amount"></param>
-        /// <param name="partyA"></param>
-        /// <param name="partyB"></param>
-        /// <param name="senderIdentifier"></param>
-        /// <param name="recieverIdentifierType"></param>
-        /// <param name="remarks"></param>
-        /// <param name="queueTimeOutURL"></param>
-        /// <param name="resultURL"></param>
-        /// <param name="accountReference"></param>
+        /// <param name="initiator">This is the credential/username used to authenticate the transaction request.</param>
+        /// <param name="initiatorPassword">Initiator Password</param>
+        /// <param name="command">Unique command for each transaction type, possible values are: BusinessPayBill, MerchantToMerchantTransfer, MerchantTransferFromMerchantToWorking, MerchantServicesMMFAccountTransfer, AgencyFloatAdvance</param>
+        /// <param name="amount">The amount being transacted.</param>
+        /// <param name="partyA">Organization’s short code initiating the transaction.</param>
+        /// <param name="partyB">Organization’s short code receiving the funds being transacted.</param>
+        /// <param name="senderIdentifier">Type of organization sending the transaction.</param>
+        /// <param name="recieverIdentifierType">Type of organization receiving the funds being transacted.</param>
+        /// <param name="remarks">Comments that are sent along with the transaction.</param>
+        /// <param name="queueTimeOutURL">The path that stores information of time out transactions.it should be properly validated to make sure that it contains the port, URI and domain name or publicly available IP.</param>
+        /// <param name="resultURL">The path that receives results from M-Pesa it should be properly validated to make sure that it contains the port, URI and domain name or publicly available IP.</param>
+        /// <param name="accountReference">Account Reference mandatory for “BusinessPaybill” CommandID.</param>
         /// <returns></returns>
         public Task<MpesaResponse> B2BAsync(string initiator, string initiatorPassword, Command command, long amount, string partyA, string partyB, IdentifierType senderIdentifier, IdentifierType recieverIdentifierType, string remarks, string queueTimeOutURL, string resultURL, string accountReference)
         {
@@ -336,19 +381,21 @@ namespace MpesaSDK.NET
             });
         }
 
-
-        public Task<MpesaResponse> C2BRegisterUrlAsync(C2BRegisterURLRequest request)
-        {
-            return CommonMpesaPostAsync("mpesa/c2b/v1/registerurl", request.ToString());
-        }
-
         /// <summary>
-        /// 
+        /// Use this API to register validation and confirmation URLs on M-Pesa 
         /// </summary>
-        /// <param name="validationURL"></param>
-        /// <param name="confirmationURL"></param>
-        /// <param name="responseType"></param>
-        /// <param name="shortCode"></param>
+        /// <param name="validationURL">This is the URL that receives the validation request from API upon payment submission. 
+        /// The validation URL is only called if the external validation on the registered shortcode is enabled.
+        /// (By default External Validation is dissabled)
+        ///</param>
+        /// <param name="confirmationURL">This is the URL that receives the confirmation request from API upon payment completion.  </param>
+        /// <param name="responseType">This parameter specifies what is to happen if for any reason the validation URL is nor reachable. 
+        /// Note that, This is the default action value that determines what MPesa will do in the scenario that your endpoint is unreachable or is unable to respond on time. 
+        /// Only two values are allowed: Completed or Cancelled. 
+        /// Completed means MPesa will automatically complete your transaction, 
+        /// whereas Cancelled means MPesa will automatically cancel the transaction, in the event MPesa is unable to reach your Validation URL.
+        ///</param>
+        /// <param name="shortCode">The short code of the organization.</param>
         /// <returns></returns>
         public Task<MpesaResponse> C2BRegisterUrlAsync(string validationURL, string confirmationURL, ResponseType responseType, string shortCode)
         {
@@ -362,23 +409,16 @@ namespace MpesaSDK.NET
         }
 
         /// <summary>
-        /// 
+        /// This API is used to make payment requests from Client to Business (C2B). You can use the sandbox provided test credentials down below to simulates a payment made from the client phone's STK/SIM Toolkit menu, and enables you to receive the payment requests in real time. 
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public Task<MpesaResponse> C2BSimulateTransactionAsync(C2BSimulateTransactionRequest request)
-        {
-            return CommonMpesaPostAsync("mpesa/c2b/v1/simulate", request.ToString());
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="command"></param>
-        /// <param name="amount"></param>
-        /// <param name="msisdn"></param>
-        /// <param name="billRefNumber"></param>
-        /// <param name="shortCode"></param>
+        /// <param name="command">This is a unique identifier of the transaction type: There are two types of these Identifiers:
+        ///CustomerPayBillOnline: This is used for Pay Bills shortcodes.
+        ///CustomerBuyGoodsOnline: This is used for Buy Goods shortcodes.
+        ///</param>
+        /// <param name="amount">This is the amount being transacted. The parameter expected is a numeric value.</param>
+        /// <param name="msisdn">This is the phone number initiating the C2B transaction.</param>
+        /// <param name="billRefNumber">This is used on CustomerPayBillOnline option only. This is where a customer is expected to enter a unique bill identifier, e.g an Account Number. </param>
+        /// <param name="shortCode">This is the Short Code receiving the amount being transacted.</param>
         /// <returns></returns>
         public Task<MpesaResponse> C2BSimulateTransactionAsync(Command command, long amount, string msisdn, string billRefNumber, string shortCode)
         {
@@ -393,26 +433,16 @@ namespace MpesaSDK.NET
         }
 
         /// <summary>
-        /// 
+        /// Use this API to enquire the balance on an M-Pesa BuyGoods (Till Number).
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public Task<MpesaResponse> AccountBalanceAsync(AccountBalanceRequest request)
-        {
-            return CommonMpesaPostAsync("mpesa/accountbalance/v1/query", request.ToString());
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="partyA"></param>
-        /// <param name="identifierType"></param>
-        /// <param name="initiator"></param>
-        /// <param name="initiatorPassword"></param>
-        /// <param name="queueTimeOutURL"></param>
-        /// <param name="resultURL"></param>
-        /// <param name="remarks"></param>
-        /// <param name="command"></param>
+        /// <param name="partyA">Organization receiving the transaction</param>
+        /// <param name="identifierType">Type of organization receiving the transaction</param>
+        /// <param name="initiator">The name of Initiator to initiating  the request</param>
+        /// <param name="initiatorPassword">Initiator Password</param>
+        /// <param name="queueTimeOutURL">The path that stores information of time out transaction</param>
+        /// <param name="resultURL">The path that stores information of transaction </param>
+        /// <param name="remarks">Comments that are sent along with the transaction.</param>
+        /// <param name="command">Takes only 'AccountBalance' CommandID</param>
         /// <returns></returns>
         public Task<MpesaResponse> AccountBalanceAsync(string partyA, IdentifierType identifierType, string initiator, string initiatorPassword, string queueTimeOutURL, string resultURL, string remarks = "Account Balance Check", Command command = Command.AccountBalance)
         {
@@ -430,11 +460,20 @@ namespace MpesaSDK.NET
             });
         }
 
-        public Task<MpesaResponse> TransactionStatusAsync(TransactionStatusRequest request)
-        {
-            return CommonMpesaPostAsync("mpesa/transactionstatus/v1/query", request.ToString());
-        }
-
+        /// <summary>
+        /// Takes only 'TransactionStatusQuery' command id
+        /// </summary>
+        /// <param name="partyA">Organization/MSISDN receiving the transaction</param>
+        /// <param name="identifierType">Type of organization receiving the transaction</param>
+        /// <param name="remarks"></param>
+        /// <param name="initiator"></param>
+        /// <param name="initiatorPassword"></param>
+        /// <param name="queueTimeOutURL"></param>
+        /// <param name="resultURL"></param>
+        /// <param name="transactionID"></param>
+        /// <param name="occasion"></param>
+        /// <param name="command">Takes only 'TransactionStatusQuery' command id</param>
+        /// <returns></returns>
         public Task<MpesaResponse> TransactionStatusAsync(string partyA, IdentifierType identifierType, string remarks, string initiator, string initiatorPassword, string queueTimeOutURL, string resultURL, string transactionID, string occasion = "", Command command = Command.TransactionStatusQuery)
         {
             return TransactionStatusAsync(new TransactionStatusRequest()
@@ -453,9 +492,36 @@ namespace MpesaSDK.NET
             });
         }
 
-        public Task<MpesaResponse> ReversalAsync(ReversalRequest request)
+        /// <summary>
+        /// Transaction Reversal API reverses a M-Pesa transaction.
+        /// </summary>
+        /// <param name="initiator">The name of Initiator to initiating  the request; Organization/MSISDN sending the transaction.</param>
+        /// <param name="initiatorPassword">password for the initiator to authenticate the transaction request</param>
+        /// <param name="receiverParty">Organization receiving the transaction; -Shortcode (6 digits)</param>
+        /// <param name="receiverIdentifierType">Type of organization receiving the transaction</param>
+        /// <param name="transactionID">Transaction to reverse; E.g. LKXXXX1234</param>
+        /// <param name="queueTimeOutURL">The path/url endpoint that stores information of time out transaction</param>
+        /// <param name="resultURL">The path/url endpoint that stores information of transaction </param>
+        /// <param name="remarks">Comments that are sent along with the transaction.; sequence of characters up to 100</param>
+        /// <param name="command">Takes only 'TransactionReversal' Command id; TransactionReversal</param>
+        /// <param name="occasion">Optional Parameter; sequence of characters up to 100.</param>
+        /// <returns></returns>
+        public Task<MpesaResponse> ReversalAsync(string initiator, string initiatorPassword, string receiverParty, IdentifierType receiverIdentifierType, string transactionID, long amount, string queueTimeOutURL, string resultURL, string remarks = "Reversal", Command command = Command.TransactionReversal, string occasion = "")
         {
-            return CommonMpesaPostAsync("mpesa/reversal/v1/request", request.ToString());
+            return ReversalAsync(new ReversalRequest()
+            {
+                CommandID = command.ToString(),
+                SecurityCredential = initiatorPassword.ToMpesaSecurityCredential(),
+                Initiator = initiator,
+                ReceiverParty = receiverParty,
+                RecieverIdentifierType = receiverIdentifierType.ToString(),
+                TransactionID = transactionID,
+                Amount = amount,
+                ResultURL = resultURL,
+                QueueTimeOutURL = queueTimeOutURL,
+                Occasion = occasion,
+                Remarks = remarks
+            });
         }
 
         #endregion
