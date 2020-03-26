@@ -14,14 +14,21 @@ nugget [install](https://www.nuget.org/packages/MpesaSDK.NET/)
 ### Sending Requests
 ***
 
-##### STK Push request
+##### Mpesa Client
 ```cs
 
 using MpesaSDK.NET;
 using MpesaSDK.NET.Dtos.Requests;
 ...
+//Development
+MpesaClient mpesaclient = new MpesaClient("consumerkey", "secret");
 
-MpesaClient mpesaclient = new MpesaClient("consumerkey","secret");
+//Production
+MpesaClient mpesaclient = new MpesaClient("consumerkey", "secret", sandbox:false);
+```
+
+##### STK Push request
+```cs
 
 var result = await mpesaclient.STKPushAsync(...);
 
