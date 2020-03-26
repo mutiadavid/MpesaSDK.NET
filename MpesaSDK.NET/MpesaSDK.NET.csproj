@@ -19,7 +19,7 @@ Created using .net Standard 2.0.</Description>
 - .NET Core 2.0+</PackageReleaseNotes>
     <Authors>davidmutia</Authors>
     <Product>davidmutia</Product>
-    <Version>2.1.1</Version>
+    <Version>2.1.2</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
