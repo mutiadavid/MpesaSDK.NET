@@ -9,5 +9,10 @@ namespace MpesaSDK.NET.Dtos.Callbacks
     {
         [JsonProperty("StkCallback")]
         public StkCallback StkCallback { get; set; }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
     }
 }

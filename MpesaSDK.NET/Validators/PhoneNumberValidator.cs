@@ -9,7 +9,7 @@ namespace MpesaSDK.NET.Validators
         public static void ValidatePhoneNumber(this MpesaClient mpesaClient, string phoneNummber)
         {
             LengthValidator.ValidateLength(phoneNummber, "PhoneNumber", 12);
-            if (!phoneNummber.StartsWith("2547"))
+            if (!phoneNummber.StartsWith("254"))
                 throw new Exception("Invalid phone number");
         }
     }

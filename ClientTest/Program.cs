@@ -25,13 +25,13 @@ namespace ClientTest
             {
                 Console.WriteLine("Started!");
 
-                //await StkPushExample();
+                await StkPushExample();
 
                 //await StkQueryExample();
 
                 //await B2CExample();
 
-                await ReversalExample();
+                //await ReversalExample();
 
             }
             catch (Exception ex)
@@ -45,7 +45,7 @@ namespace ClientTest
 
         private static async Task StkPushExample()
         {
-            var res = await mpesaclient.STKPushAsync(businesscode, phonenumber, 10, passkey, stkPushCallbackURL, accountReference: "1234567890", transactionDesc: "Goods payment");
+            var res = await mpesaclient.STKPushAsync(businesscode, phonenumber, 10, passkey, stkPushCallbackURL, accountReference: "1234567890", transactionDesc: "Event Ticket");
 
             Console.WriteLine(res.ToString());
         }
