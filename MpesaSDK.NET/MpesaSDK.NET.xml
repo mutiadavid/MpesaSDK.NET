@@ -87,6 +87,26 @@
             Transferring funds from paybills MMF to another paybills utility account.
             </summary>
         </member>
+        <member name="T:MpesaSDK.NET.HelperFunctions">
+            <summary>
+            Helper functions
+            </summary>
+        </member>
+        <member name="M:MpesaSDK.NET.HelperFunctions.MpesaPassword(System.String,System.String)">
+            <summary>
+            Generate mpesa password
+            </summary>
+            <param name="passkey"></param>
+            <param name="businessCode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MpesaSDK.NET.HelperFunctions.CorrectPhoneNumber(System.String)">
+            <summary>
+            Add 254 to a phone number
+            </summary>
+            <param name="phone"></param>
+            <returns></returns>
+        </member>
         <member name="M:MpesaSDK.NET.MpesaClient.STKPushAsync(MpesaSDK.NET.Dtos.Requests.STKPushRequest)">
             <summary>
             

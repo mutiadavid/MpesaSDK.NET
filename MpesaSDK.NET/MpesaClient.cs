@@ -271,6 +271,8 @@ namespace MpesaSDK.NET
         /// <returns></returns>
         public Task<StkPushResponse> STKPushAsync(string businessCode, string phoneNumber, long amount, string passKey, string callbackUrl, string accountReference = "12345", string transactionDesc = "Payment", Command command = Command.CustomerPayBillOnline)
         {
+            phoneNumber = HelperFunctions.CorrectPhoneNumber(phoneNumber);
+
             var (password, timestamp) = HelperFunctions.MpesaPassword(passKey, businessCode);
 
             return STKPushAsync(new STKPushRequest()
