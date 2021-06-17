@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -8,9 +8,9 @@ This package makes it easy for .Net developers to integrate to safaricom mpesa a
 
 Created using .net Standard 2.0.</Description>
     <PackageProjectUrl>https://github.com/mutiadavid/MpesaSDK.NET</PackageProjectUrl>
-    <PackageIconUrl>https://developer.safaricom.co.ke/sites/all/themes/apigee_responsive_custom/logo.png</PackageIconUrl>
+    <PackageIconUrl></PackageIconUrl>
     <RepositoryUrl>https://github.com/mutiadavid/MpesaSDK.NET</RepositoryUrl>
-    <PackageLicenseUrl>https://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
+    <PackageLicenseUrl></PackageLicenseUrl>
     <Copyright>davidmutia @2018</Copyright>
     <PackageTags>Mpesa, Daraja, SDK</PackageTags>
     <PackageReleaseNotes>Supported platforms:
@@ -19,14 +19,30 @@ Created using .net Standard 2.0.</Description>
 - .NET Core 2.0+</PackageReleaseNotes>
     <Authors>davidmutia</Authors>
     <Product>davidmutia</Product>
-    <Version>2.0.3</Version>
+    <Version>2.1.5</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <AssemblyVersion>2.1.4.0</AssemblyVersion>
+    <FileVersion>2.1.4.0</FileVersion>
+    <PackageLicenseFile>license.txt</PackageLicenseFile>
+    <PackageIcon>mpesasdk.png</PackageIcon>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>F:\Dave\MpesaSDK.NET\MpesaSDK.NET\MpesaSDK.NET.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="Examples\**" />
     <EmbeddedResource Remove="Examples\**" />
     <None Remove="Examples\**" />
+    <None Include="..\license.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="mpesasdk.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

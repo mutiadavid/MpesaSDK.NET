@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CallbackServer.Controllers
 {
-    [Route("")]
+    [Route("Home")]
     public class HomeController : Controller
     {
         [HttpGet("")]
