@@ -21,8 +21,8 @@ Created using .net Standard 2.0.</Description>
     <Product>davidmutia</Product>
     <Version>2.1.5</Version>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <AssemblyVersion>2.1.4.0</AssemblyVersion>
-    <FileVersion>2.1.4.0</FileVersion>
+    <AssemblyVersion>2.1.5.0</AssemblyVersion>
+    <FileVersion>2.1.5.0</FileVersion>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
     <PackageIcon>mpesasdk.png</PackageIcon>
   </PropertyGroup>
