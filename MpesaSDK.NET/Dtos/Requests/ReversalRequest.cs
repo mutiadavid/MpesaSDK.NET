@@ -27,6 +27,8 @@ namespace MpesaSDK.NET.Dtos.Requests
         public string TransactionID { get; set; }
         [JsonProperty("Occasion")]
         public string Occasion { get; set; }
+        [JsonProperty("Amount")]
+        public long Amount { get; set; }
 
         public override string ToString()
         {
