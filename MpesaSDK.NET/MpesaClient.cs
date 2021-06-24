@@ -263,7 +263,7 @@ namespace MpesaSDK.NET
         /// <param name="businessCode">The organization receiving the funds. The parameter expected is a 5 to 6 digit as defined on the Shortcode description above. This can be the same as BusinessShortCode value above</param>
         /// <param name="phoneNumber">The phone number sending money. The parameter expected is a Valid Safaricom Mobile Number that is M-Pesa registered in the format 2547XXXXXXXX</param>
         /// <param name="amount">The amount to be transacted.</param>
-        /// <param name="passKey">PassKey from safaricom portal</param>
+        /// <param name="passKey">LNMPassWord from safaricom portal</param>
         /// <param name="callbackUrl">A CallBack URL is a valid secure URL that is used to receive notifications from M-Pesa API. It is the endpoint to which the results will be sent by M-Pesa API.</param>
         /// <param name="accountReference">Account Reference: This is an Alpha-Numeric parameter that is defined by your system as an Identifier of the transaction for CustomerPayBillOnline transaction type. Along with the business name, this value is also displayed to the customer in the STK Pin Prompt message. Maximum of 12 characters.</param>
         /// <param name="transactionDesc">This is any additional information/comment that can be sent along with the request from your system. Maximum of 13 Characters.</param>
@@ -296,7 +296,7 @@ namespace MpesaSDK.NET
         /// </summary>
         /// <param name="businessShortCode">This is organizations shortcode (Paybill or Buygoods - A 5 to 6 digit account number) used to identify an organization and receive the transaction.</param>
         /// <param name="checkoutRequestID">This is a global unique identifier of the processed checkout transaction request.; ws_CO_DMZ_123212312_2342347678234.</param>
-        /// <param name="passkey">passkey: from safaricom</param>
+        /// <param name="passkey">passkey: from safaricom (LNMPassWord)</param>
         /// <returns></returns>
         public Task<StkPushQueryResponse> StkPushQueryAsync(string businessShortCode, string checkoutRequestID, string passkey)
         {
