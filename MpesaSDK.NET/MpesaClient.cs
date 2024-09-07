@@ -7,7 +7,6 @@ using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Authenticators;
 using System;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MpesaSDK.NET
@@ -50,7 +49,7 @@ namespace MpesaSDK.NET
                 };
                 RestRequest restRequest = new RestRequest(oauthUrl, Method.GET);
                 restRequest.AddHeader("Content-Type", "application/json");
-                var response = await restClient.ExecuteTaskAsync<AccessTokenDto>(restRequest);
+                var response = await restClient.ExecuteAsync<AccessTokenDto>(restRequest);
                 if (!response.IsSuccessful)
                 {
                     HandleRestExceptions(response, "Error getting access token");
@@ -80,7 +79,7 @@ namespace MpesaSDK.NET
                 restRequest.AddHeader("Content-Type", "application/json");
                 restRequest.AddHeader("Authorization", $"Bearer {token}");
                 restRequest.AddParameter("application/json;charset=utf-8", data, ParameterType.RequestBody);
-                var response = await restClient.ExecuteTaskAsync(restRequest);
+                var response = await restClient.ExecuteAsync(restRequest);
 
                 //var result = new MpesaResponse();
                 (S SuccessResponse, ErrorResponse ErrorResponse, bool IsSuccessful) result = (new S(), null, false);

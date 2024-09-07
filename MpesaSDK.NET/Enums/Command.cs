@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MpesaSDK.NET.Enums
+﻿namespace MpesaSDK.NET.Enums
 {
     /// <summary>
     /// This is a unique command that specifies transaction type.
@@ -33,6 +29,10 @@ namespace MpesaSDK.NET.Enums
         /// Used to simulate a transaction taking place in the case of C2B Simulate Transaction or to initiate a transaction on behalf of the customer (STK Push).
         /// </summary>
         CustomerPayBillOnline,
+        /// <summary>
+        /// Used to simulate a transaction taking place in the case of C2B Simulate Transaction or to initiate a transaction on behalf of the customer (STK Push).
+        /// </summary>
+        CustomerBuyGoodsOnline,
         /// <summary>
         /// Used to query the details of a transaction.
         /// </summary>
