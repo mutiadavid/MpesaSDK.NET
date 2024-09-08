@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 
-namespace MpesaSDK.NET
+namespace MpesaSDK.NET.Helpers
 {
     /// <summary>
     /// Helper functions
@@ -16,12 +15,11 @@ namespace MpesaSDK.NET
         /// <param name="passkey"></param>
         /// <param name="businessCode"></param>
         /// <returns></returns>
-        public static (string password,string timestamp) MpesaPassword(string passkey, string businessCode)
+        public static (string password, string timestamp) MpesaPassword(string passkey, string businessCode)
         {
-            var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
-            var password = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{businessCode}{passkey}{timestamp}"));
-
-            return (password,timestamp);
+            string timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+            string password = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{businessCode}{passkey}{timestamp}"));
+            return (password, timestamp);
         }
 
         /// <summary>
@@ -36,10 +34,10 @@ namespace MpesaSDK.NET
             if (phone.Length == 12) return phone;
 
             //remove 0 and add prefix 254
-            if (phone.Length == 10) return $"254{phone.Substring(1,phone.Length-1)}";
+            if (phone.Length == 10) return $"254{phone.Substring(1, phone.Length - 1)}";
 
             //add prefix 254
-            if(phone.Length == 9) return $"254{phone}";
+            if (phone.Length == 9) return $"254{phone}";
 
             return phone;
         }

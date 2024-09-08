@@ -1,19 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29403.142
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35222.181
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MpesaSDK.NET", "MpesaSDK.NET\MpesaSDK.NET.csproj", "{9AF74C97-B6C0-49B4-8F4B-496C7FFFC9AC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{03018C29-AECC-4986-B713-5229D39B7AD1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MpesaSDK.NET.Test", "MpesaSDK.NET.Test\MpesaSDK.NET.Test.csproj", "{53E3E6B5-B055-4E55-BFE0-A4650FAB3B3E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{0A27AF92-341D-4615-8C87-9F92DFB63B84}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CallbackServer", "CallbackServer\CallbackServer.csproj", "{0ACA68D7-22DE-4552-9DEF-762401936CE1}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientTest", "ClientTest\ClientTest.csproj", "{4E118F4A-B880-42B2-AB29-701D5B10077A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewFolder1", "NewFolder1", "{112C8A47-9192-4B77-9091-F3ACB1442B61}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MpesaSDK.NET.CallbackAPI", "MpesaSDK.NET.CallbackAPI\MpesaSDK.NET.CallbackAPI.csproj", "{C969BED7-A4B8-45E1-86A4-4A0F84A8F5AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,22 +19,17 @@ Global
 		{9AF74C97-B6C0-49B4-8F4B-496C7FFFC9AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AF74C97-B6C0-49B4-8F4B-496C7FFFC9AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9AF74C97-B6C0-49B4-8F4B-496C7FFFC9AC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0ACA68D7-22DE-4552-9DEF-762401936CE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0ACA68D7-22DE-4552-9DEF-762401936CE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0ACA68D7-22DE-4552-9DEF-762401936CE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0ACA68D7-22DE-4552-9DEF-762401936CE1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4E118F4A-B880-42B2-AB29-701D5B10077A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4E118F4A-B880-42B2-AB29-701D5B10077A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4E118F4A-B880-42B2-AB29-701D5B10077A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4E118F4A-B880-42B2-AB29-701D5B10077A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53E3E6B5-B055-4E55-BFE0-A4650FAB3B3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53E3E6B5-B055-4E55-BFE0-A4650FAB3B3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53E3E6B5-B055-4E55-BFE0-A4650FAB3B3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53E3E6B5-B055-4E55-BFE0-A4650FAB3B3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C969BED7-A4B8-45E1-86A4-4A0F84A8F5AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C969BED7-A4B8-45E1-86A4-4A0F84A8F5AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C969BED7-A4B8-45E1-86A4-4A0F84A8F5AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C969BED7-A4B8-45E1-86A4-4A0F84A8F5AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{0A27AF92-341D-4615-8C87-9F92DFB63B84} = {03018C29-AECC-4986-B713-5229D39B7AD1}
-		{0ACA68D7-22DE-4552-9DEF-762401936CE1} = {0A27AF92-341D-4615-8C87-9F92DFB63B84}
-		{4E118F4A-B880-42B2-AB29-701D5B10077A} = {0A27AF92-341D-4615-8C87-9F92DFB63B84}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C8B8B68C-976C-42EA-9697-98FB14E104A9}

@@ -1,7 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MpesaSDK.NET.Dtos.Callbacks
 {
@@ -9,7 +6,7 @@ namespace MpesaSDK.NET.Dtos.Callbacks
     {
         public override string ToString()
         {
-            return JsonConvert.SerializeObject(this);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
     }
 }

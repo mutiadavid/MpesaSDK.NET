@@ -4,7 +4,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Xml;
 
-namespace MpesaSDK.NET
+namespace MpesaSDK.NET.Helpers
 {
     public static class Encrypt
     {
@@ -35,7 +35,7 @@ namespace MpesaSDK.NET
 
         private static void FromXmlString2(this RSACryptoServiceProvider rsa, string xmlString)
         {
-            Encrypt.FromXmlStringImpl(rsa, xmlString);
+            FromXmlStringImpl(rsa, xmlString);
         }
 
         private static void FromXmlStringImpl(RSACryptoServiceProvider rsa, string xmlString)
@@ -88,10 +88,10 @@ namespace MpesaSDK.NET
             RSAParameters rsaParameters = rsa.ExportParameters(includePrivateParameters);
             if (!includePrivateParameters)
             {
-                return string.Format("<RSAKeyValue><Modulus>{0}</Modulus><Exponent>{1}</Exponent></RSAKeyValue>", (object)Convert.ToBase64String(rsaParameters.Modulus), (object)Convert.ToBase64String(rsaParameters.Exponent));
+                return string.Format("<RSAKeyValue><Modulus>{0}</Modulus><Exponent>{1}</Exponent></RSAKeyValue>", Convert.ToBase64String(rsaParameters.Modulus), Convert.ToBase64String(rsaParameters.Exponent));
             }
 
-            return string.Format("<RSAKeyValue><Modulus>{0}</Modulus><Exponent>{1}</Exponent><P>{2}</P><Q>{3}</Q><DP>{4}</DP><DQ>{5}</DQ><InverseQ>{6}</InverseQ><D>{7}</D></RSAKeyValue>", (object)Convert.ToBase64String(rsaParameters.Modulus), (object)Convert.ToBase64String(rsaParameters.Exponent), (object)Convert.ToBase64String(rsaParameters.P), (object)Convert.ToBase64String(rsaParameters.Q), (object)Convert.ToBase64String(rsaParameters.DP), (object)Convert.ToBase64String(rsaParameters.DQ), (object)Convert.ToBase64String(rsaParameters.InverseQ), (object)Convert.ToBase64String(rsaParameters.D));
+            return string.Format("<RSAKeyValue><Modulus>{0}</Modulus><Exponent>{1}</Exponent><P>{2}</P><Q>{3}</Q><DP>{4}</DP><DQ>{5}</DQ><InverseQ>{6}</InverseQ><D>{7}</D></RSAKeyValue>", Convert.ToBase64String(rsaParameters.Modulus), Convert.ToBase64String(rsaParameters.Exponent), Convert.ToBase64String(rsaParameters.P), Convert.ToBase64String(rsaParameters.Q), Convert.ToBase64String(rsaParameters.DP), Convert.ToBase64String(rsaParameters.DQ), Convert.ToBase64String(rsaParameters.InverseQ), Convert.ToBase64String(rsaParameters.D));
         }
 
 

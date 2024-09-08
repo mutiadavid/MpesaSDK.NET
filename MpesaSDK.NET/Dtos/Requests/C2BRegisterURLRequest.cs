@@ -1,7 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MpesaSDK.NET.Dtos.Requests
 {
@@ -9,16 +6,19 @@ namespace MpesaSDK.NET.Dtos.Requests
     {
         [JsonProperty("ValidationURL")]
         public string ValidationURL { get; set; }
+
         [JsonProperty("ConfirmationURL")]
         public string ConfirmationURL { get; set; }
+
         [JsonProperty("ShortCode")]
         public string ShortCode { get; set; }
+
         [JsonProperty("ResponseType")]
         public string ResponseType { get; set; }
 
         public override string ToString()
         {
-            return JsonConvert.SerializeObject(this);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
     }
 }
