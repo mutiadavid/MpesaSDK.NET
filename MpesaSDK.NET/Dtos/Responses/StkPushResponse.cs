@@ -2,18 +2,20 @@ using Newtonsoft.Json;
 
 namespace MpesaSDK.NET.Dtos.Responses
 {
-    public class StkPushResponse
+    public class StkPushResponse : ApiBaseResponse
     {
-        [JsonProperty("IsSuccess")]
-        public bool IsSuccess { get; set; }
-        [JsonProperty("SuccessResponse")]
-        public StkPushSuccessResponse SuccessResponse { get; set; }
-        [JsonProperty("ErrorResponse")]
-        public ErrorResponse ErrorResponse { get; set; }
+        [JsonProperty("MerchantRequestID")]
+        public string MerchantRequestID { get; set; } = string.Empty;
+
+        [JsonProperty("CheckoutRequestID")]
+        public string CheckoutRequestID { get; set; } = string.Empty;
+
+        [JsonProperty("CustomerMessage")]
+        public string CustomerMessage { get; set; } = string.Empty;
 
         public override string ToString()
         {
-            return JsonConvert.SerializeObject(this);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
     }
 }

@@ -1,7 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MpesaSDK.NET.Dtos.Callbacks
 {
@@ -9,9 +6,10 @@ namespace MpesaSDK.NET.Dtos.Callbacks
     {
         [JsonProperty("Result")]
         public B2CResult Result { get; set; }
+
         public override string ToString()
         {
-            return JsonConvert.SerializeObject(this);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
     }
 }
