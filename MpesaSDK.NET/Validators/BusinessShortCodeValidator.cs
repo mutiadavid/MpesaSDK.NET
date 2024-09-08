@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MpesaSDK.NET.Validators
+﻿namespace MpesaSDK.NET.Validators
 {
     public static class BusinessShortCodeValidator
     {

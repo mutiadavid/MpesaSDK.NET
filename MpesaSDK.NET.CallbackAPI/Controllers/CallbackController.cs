@@ -11,27 +11,25 @@ namespace MpesaSDK.NET.CallbackAPI.Controllers
 
         public CallbackController(ILogger<CallbackController> logger)
         {
-            _logger = logger;
+            this._logger = logger;
         }
 
         [HttpPost("StkPushCallback")]
-        public async Task<IActionResult> StkPushCallbackAsync([FromBody] LipaNaMpesaCallback callback)
+        public IActionResult StkPushCallback([FromBody] LipaNaMpesaCallback callback)
         {
-            //do something with the call databack
-
             _logger.LogInformation(callback.ToString());
             return Ok();
         }
 
         [HttpPost("C2BValidation")]
-        public async Task<IActionResult> C2BValidationAsync([FromBody] C2BValidationCallback callback)
+        public IActionResult C2BValidation([FromBody] C2BValidationCallback callback)
         {
             _logger.LogInformation(callback.ToString());
             return Ok();
         }
 
         [HttpPost("C2BConfirmation")]
-        public async Task<IActionResult> C2BConfirmationAsync([FromBody] C2BConfirmationCallback callback)
+        public IActionResult C2BConfirmation([FromBody] C2BConfirmationCallback callback)
         {
             _logger.LogInformation(callback.ToString());
             return Ok();
