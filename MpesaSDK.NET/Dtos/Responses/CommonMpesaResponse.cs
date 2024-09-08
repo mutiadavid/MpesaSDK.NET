@@ -2,7 +2,7 @@
 
 namespace MpesaSDK.NET.Dtos.Responses
 {
-    public class CommonMpesaResponse
+    public class CommonMpesaResponse : ApiBaseResponse
     {
         [JsonProperty("ConversationID")]
         public string ConversationID { get; set; }
