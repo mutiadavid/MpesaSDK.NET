@@ -3,6 +3,7 @@ using MpesaSDK.NET.Dtos.Requests;
 using MpesaSDK.NET.Dtos.Responses;
 using MpesaSDK.NET.Enums;
 using MpesaSDK.NET.Extensions;
+using MpesaSDK.NET.Helpers;
 using MpesaSDK.NET.Validators;
 using System;
 using System.Net.Http;

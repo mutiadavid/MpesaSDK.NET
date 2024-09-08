@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace MpesaSDK.NET
+namespace MpesaSDK.NET.Helpers
 {
     /// <summary>
     /// Helper functions
