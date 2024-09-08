@@ -28,7 +28,7 @@ using MpesaSDK.NET.Enums;
  {
      ConsumerKey = "your-consumerkey",
      ConsumerSecret = "your-consumer-secret",
-     IsSandBox = true /* change this flag to true if Production */ 
+     IsSandBox = true /* change this flag to false if Production */ 
  });
 ```
 
