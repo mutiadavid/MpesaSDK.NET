@@ -9,7 +9,7 @@ namespace MpesaSDK.NET.Dtos.Callbacks
 
         public override string ToString()
         {
-            return JsonConvert.SerializeObject(this);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
     }
 }

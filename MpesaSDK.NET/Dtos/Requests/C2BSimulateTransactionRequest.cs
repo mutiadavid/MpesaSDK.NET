@@ -1,7 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MpesaSDK.NET.Dtos.Requests
 {
@@ -9,21 +6,22 @@ namespace MpesaSDK.NET.Dtos.Requests
     {
         [JsonProperty("CommandID")]
         public string CommandID { get; set; }
+
         [JsonProperty("Amount")]
         public long Amount { get; set; }
-        /// <summary>
-        /// PhoneNumber 
-        /// </summary>
+
         [JsonProperty("Msisdn")]
         public string MSISDN { get; set; }
+
         [JsonProperty("BillRefNumber")]
         public string BillRefNumber { get; set; }
+
         [JsonProperty("ShortCode")]
         public string ShortCode { get; set; }
 
         public override string ToString()
         {
-            return JsonConvert.SerializeObject(this);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
     }
 }
