@@ -17,14 +17,19 @@ nugget [install](https://www.nuget.org/packages/MpesaSDK.NET/)
 ##### Mpesa Client
 ```cs
 
-using MpesaSDK.NET;
-using MpesaSDK.NET.Dtos.Requests;
+using MpesaSDK.NET.Dtos.InitiateRequests;
+using MpesaSDK.NET.Dtos.Responses;
+using MpesaSDK.NET.Enums;
 ...
-//Development
-MpesaClient mpesaclient = new MpesaClient("consumerkey", "secret");
-
-//Production
-MpesaClient mpesaclient = new MpesaClient("consumerkey", "secret", sandbox:false);
+//http client
+ using HttpClient client = new() { Timeout = TimeSpan.FromSeconds(10) };
+//mpesa client
+ MpesaClient mpesaClient = new MpesaClient(client, new MpesaClientOptions
+ {
+     ConsumerKey = "your-consumerkey",
+     ConsumerSecret = "your-consumer-secret",
+     IsSandBox = true /* change this flag to true if Production */ 
+ });
 ```
 
 ##### STK Push request
