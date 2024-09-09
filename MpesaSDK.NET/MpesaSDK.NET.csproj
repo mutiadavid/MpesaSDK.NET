@@ -23,10 +23,10 @@
 		</PackageReleaseNotes>
 		<Authors>davidmutia</Authors>
 		<Product>davidmutia</Product>
-		<Version>3.0.1</Version>
+		<Version>3.0.2</Version>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-		<AssemblyVersion>3.0.1.0</AssemblyVersion>
-		<FileVersion>3.0.1.0</FileVersion>
+		<AssemblyVersion>3.0.2.0</AssemblyVersion>
+		<FileVersion>3.0.2.0</FileVersion>
 		<PackageLicenseFile>license.txt</PackageLicenseFile>
 		<PackageIcon>mpesasdk.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
