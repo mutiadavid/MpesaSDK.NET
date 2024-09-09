@@ -8,7 +8,7 @@ namespace MpesaSDK.NET.Test
     {
         private static readonly string consumerkey = "XQdPXlGU1IGd3OBEffVToqSjL8NMn925gmAJh5U3NqsiEkPJ";
         private static readonly string consumersecret = "DQKfmfGY9kwF9uy40wSr41iQfseQUAGN8kl6UcfF7V6hIpGADfH2VYIi8Oz2eTzv";
-        private static readonly string businesscode = "600981"; //partyA
+        private static readonly string businesscode = "174379"; //partyA
         private static readonly string phonenumber = "254708374149"; //partyB
         private static readonly string passkey = "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919";
         private static readonly string stkPushCallbackURL = "https://sandbox.free.beeceptor.com";
