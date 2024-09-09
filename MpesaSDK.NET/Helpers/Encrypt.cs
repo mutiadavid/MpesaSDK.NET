@@ -6,14 +6,16 @@ using System.Xml;
 
 namespace MpesaSDK.NET.Helpers
 {
+    /// <summary>
+    /// Password Encryption helper class
+    /// </summary>
     public static class Encrypt
     {
         //TODO: Implement 
         /// <summary>
         /// Mpesa Pass encryption.
-        /// Caution!!! Not tested!!!
         /// </summary>
-        /// <param name="data">data to be encrypted with MPesa Cert</param>
+        /// <param name="pass">password to be encrypted with MPesa Cert</param>
         /// <returns></returns>
         public static string ToMpesaSecurityCredential(this string pass)
         {

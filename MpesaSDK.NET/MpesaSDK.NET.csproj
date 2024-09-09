@@ -26,13 +26,14 @@
 		<Version>3.0.1</Version>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<AssemblyVersion>3.0.1.0</AssemblyVersion>
-		<FileVersion>2.1.5.0</FileVersion>
+		<FileVersion>3.0.1.0</FileVersion>
 		<PackageLicenseFile>license.txt</PackageLicenseFile>
 		<PackageIcon>mpesasdk.png</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DocumentationFile>F:\Dave\MpesaSDK.NET\MpesaSDK.NET\MpesaSDK.NET.xml</DocumentationFile>
+		<DocumentationFile>D:\dave\MpesaSDK.NET\MpesaSDK.NET\MpesaSDK.NET.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -42,6 +43,10 @@
 		<None Include="..\license.txt">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
+		</None>
+		<None Include="..\README.md">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
 		</None>
 		<None Include="mpesasdk.png">
 			<Pack>True</Pack>

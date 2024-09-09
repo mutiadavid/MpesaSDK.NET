@@ -17,6 +17,11 @@ namespace MpesaSDK.NET
         private readonly HttpClient _httpClient;
         private readonly MpesaClientOptions _options;
 
+        /// <summary>
+        /// MpesaClient ctor
+        /// </summary>
+        /// <param name="httpClient"></param>
+        /// <param name="options"></param>
         public MpesaClient(HttpClient httpClient, MpesaClientOptions options)
         {
             this._options = options;
@@ -25,9 +30,21 @@ namespace MpesaSDK.NET
         }
 
         /// <summary>
+        /// MpesaClient ctor
+        /// </summary>
+        /// <param name="consumerKey"></param>
+        /// <param name="consumerSecret"></param>
+        /// <param name="sandbox"></param>
+        public MpesaClient(string consumerKey, string consumerSecret, bool sandbox = true) 
+            : this(new HttpClient(), new MpesaClientOptions { ConsumerKey = consumerKey, ConsumerSecret = consumerSecret, IsSandBox = sandbox })
+        {
+           
+        }
+
+        /// <summary>
         /// Use this API to initiate online payment on behalf of a customer.
         /// </summary>
-        public async Task<StkPushResponse> STKPushAsync(InitiateSTKPush initiateRequest, CancellationToken cancellationToken)
+        public async Task<StkPushResponse> STKPushAsync(InitiateSTKPush initiateRequest, CancellationToken cancellationToken = default)
         {
             initiateRequest.PhoneNumber = HelperFunctions.CorrectPhoneNumber(initiateRequest.PhoneNumber);
             (string password, string timestamp) = HelperFunctions.MpesaPassword(initiateRequest.PassKey, initiateRequest.BusinessCode);
@@ -63,7 +80,7 @@ namespace MpesaSDK.NET
         /// <summary>
         /// Use this API to check the status of a Lipa Na M-Pesa Online Payment
         /// </summary>
-        public async Task<StkPushQueryResponse> StkPushQueryAsync(InitiateSTKPushQuery initiateRequest, CancellationToken cancellationToken)
+        public async Task<StkPushQueryResponse> StkPushQueryAsync(InitiateSTKPushQuery initiateRequest, CancellationToken cancellationToken = default)
         {
             (string password, string timestamp) = HelperFunctions.MpesaPassword(initiateRequest.PassKey, initiateRequest.BusinessShortCode);
             StkPushQueryRequest apiRequest = new StkPushQueryRequest()
@@ -80,7 +97,7 @@ namespace MpesaSDK.NET
         /// <summary>
         /// Use this API to transact between an M-Pesa short code to a phone number registered on M-Pesa.
         /// </summary>
-        public async Task<CommonMpesaResponse> B2CAsync(InitiateB2C initiateRequest, CancellationToken cancellationToken)
+        public async Task<CommonMpesaResponse> B2CAsync(InitiateB2C initiateRequest, CancellationToken cancellationToken = default)
         {
             B2CRequest apiRequest = new B2CRequest()
             {
@@ -102,7 +119,7 @@ namespace MpesaSDK.NET
         /// <summary>
         /// This API enables Business to Business (B2B) transactions between a business and another business. Use of this API requires a valid and verified B2B M-Pesa short code for the business initiating the transaction and the both businesses involved in the transaction.
         /// </summary>
-        public async Task<CommonMpesaResponse> B2BAsync(InitiateB2B initiateRequest, CancellationToken cancellationToken)
+        public async Task<CommonMpesaResponse> B2BAsync(InitiateB2B initiateRequest, CancellationToken cancellationToken = default)
         {
             B2BRequest apiRequest = new B2BRequest
             {
@@ -126,7 +143,7 @@ namespace MpesaSDK.NET
         /// <summary>
         /// Use this API to register validation and confirmation URLs on M-Pesa 
         /// </summary>
-        public async Task<CommonMpesaResponse> C2BRegisterUrlAsync(InitiateC2BRegisterUrl initiateRequest, CancellationToken cancellationToken)
+        public async Task<CommonMpesaResponse> C2BRegisterUrlAsync(InitiateC2BRegisterUrl initiateRequest, CancellationToken cancellationToken = default)
         {
             C2BRegisterURLRequest apiRequest = new C2BRegisterURLRequest()
             {
@@ -142,7 +159,7 @@ namespace MpesaSDK.NET
         /// <summary>
         /// This API is used to make payment requests from Client to Business (C2B). You can use the sandbox provided test credentials down below to simulates a payment made from the client phone's STK/SIM Toolkit menu, and enables you to receive the payment requests in real time. 
         /// </summary>
-        public async Task<CommonMpesaResponse> C2BSimulateTransactionAsync(InitiateC2BTransactionSimulation initiateRequest, CancellationToken cancellationToken)
+        public async Task<CommonMpesaResponse> C2BSimulateTransactionAsync(InitiateC2BTransactionSimulation initiateRequest, CancellationToken cancellationToken = default)
         {
             C2BSimulateTransactionRequest apiRequest = new C2BSimulateTransactionRequest()
             {
@@ -159,7 +176,7 @@ namespace MpesaSDK.NET
         /// <summary>
         /// Use this API to enquire the balance on an M-Pesa BuyGoods (Till Number).
         /// </summary>
-        public async Task<CommonMpesaResponse> AccountBalanceAsync(InitiateAccountBalCheck initiateRequest, CancellationToken cancellationToken)
+        public async Task<CommonMpesaResponse> AccountBalanceAsync(InitiateAccountBalCheck initiateRequest, CancellationToken cancellationToken = default)
         {
             AccountBalanceRequest apiRequest = new AccountBalanceRequest()
             {
@@ -179,7 +196,7 @@ namespace MpesaSDK.NET
         /// <summary>
         /// Query Transaction Status
         /// </summary>
-        public async Task<CommonMpesaResponse> TransactionStatusAsync(InitiateTransactionStatusCheck initiateRequest, CancellationToken cancellationToken)
+        public async Task<CommonMpesaResponse> TransactionStatusAsync(InitiateTransactionStatusCheck initiateRequest, CancellationToken cancellationToken = default)
         {
             TransactionStatusRequest apiRequest = new TransactionStatusRequest()
             {
@@ -202,7 +219,7 @@ namespace MpesaSDK.NET
         /// <summary>
         /// Transaction Reversal API reverses a M-Pesa transaction.
         /// </summary>
-        public async Task<CommonMpesaResponse> ReversalAsync(InitiateTransactionReversal initiateRequest, CancellationToken cancellationToken)
+        public async Task<CommonMpesaResponse> ReversalAsync(InitiateTransactionReversal initiateRequest, CancellationToken cancellationToken = default)
         {
             ReversalRequest apiRequest = new ReversalRequest()
             {
