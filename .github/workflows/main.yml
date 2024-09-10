@@ -1,4 +1,4 @@
-name: Release to NuGethttps://github.com/mutiadavid/MpesaSDK.NET/tree/master/.github/workflows
+name: Release to nuget
 
 on:
   release:
