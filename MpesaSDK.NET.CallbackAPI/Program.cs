@@ -1,8 +1,10 @@
 using Microsoft.OpenApi.Models;
+using MpesaSDK.NET.Extensions;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddMpesaClient(new MpesaSDK.NET.MpesaClientOptions() { ConsumerKey = "xxx", ConsumerSecret = "xxx" });
 
 builder.Services.AddControllers();
 

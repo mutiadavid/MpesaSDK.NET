@@ -52,7 +52,7 @@ namespace MpesaSDK.NET
             {
                 BusinessShortCode = initiateRequest.BusinessCode,
                 PartyA = initiateRequest.PhoneNumber,
-                PartyB = initiateRequest.BusinessCode,
+                PartyB = string.IsNullOrEmpty(initiateRequest.PartyB) ? initiateRequest.BusinessCode : initiateRequest.PartyB,
                 PhoneNumber = initiateRequest.PhoneNumber,
                 TransactionType = initiateRequest.Command.ToString(),
                 TransactionDesc = initiateRequest.TransactionDesc,
@@ -69,7 +69,6 @@ namespace MpesaSDK.NET
             this.ValidateTimestamp(apiRequest.Timestamp);
             this.ValidateBusinessShortCode(apiRequest.BusinessShortCode);
 
-            SameValueValidator.ValidateSameValue(apiRequest.PartyB, apiRequest.BusinessShortCode, "PartyB", "BusinessShortCode");
             LengthValidator.ValidateLength(apiRequest.AccountReference, "AccountReference", 12);
             LengthValidator.ValidateLength(apiRequest.TransactionDesc, "TransactionDesc", 13, 1);
             URLValidator.ValidateURL(apiRequest.CallBackURL, "CallBackURL");

@@ -12,5 +12,6 @@ namespace MpesaSDK.NET.Dtos.InitiateRequests
         public string AccountReference { get; set; } = string.Empty;
         public string TransactionDesc { get; set; } = string.Empty;
         public C2BCommand Command { get; set; } = C2BCommand.CustomerPayBillOnline;
+        public string PartyB { get; set; }
     }
 }
